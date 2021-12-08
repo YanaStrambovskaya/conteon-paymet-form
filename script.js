@@ -374,14 +374,6 @@ for (const lang of langContainers) {
 }
 let myApp = {}
 myApp.validation = {
-  validationInfo: {
-    status : '',
-    info : {
-        code : 123,
-        message : '',
-        fieldSelector : ''
-    }
-  },
   email: function(val) {
     if (val.length < 4) {
       return {
@@ -683,39 +675,6 @@ function scanCardPromise (datasource) {
   })
 }
 //scanCard UI
-// function scanCard() {
-//   const customerInput = getFormEl('customer');
-//   const scanButton = getFormEl('scanCard');
-//   const cardNumber = document.getElementById('cardNumber');
-  
-//   scanButton.innerText = dictionary[formState.language].scanning;
-//   scanButton.toggleAttribute('disabled');
-//   customerInput.classList.remove(errorClasses.input);
-//   removeSpanErrorStyles(customerInput.id, "")
-
-//   customerInput.classList.remove(errorClasses.input);
-//   removeSpanErrorStyles('customer', "");
-//   setFormState(true, 'customer');
-
-//   scanCardPromise(scanCardFieldSource())
-//   .then(data=>{
-// 	   customerInput.value = data.customer;
-// 	  cardNumber.innerText = data.tokenName;
-// 	  //TODO: fillup cardNumber
-//   })
-//   .catch(err=>{
-// 	  customerInput.classList.add(errorClasses.input);
-//       addSpanErrorStyles('customer', err);
-//       setFormState(false, 'customer');
-//   })
-//   .finally(()=>{
-// 	  	setFormState(true, 'customer');
-// 		scanButton.toggleAttribute('disabled');
-//         scanButton.textContent ='Обновить карту';	  
-//   });
-// }
-
-
 function scanCard() {
   const customerInput = getFormEl('customer');
   const scanButton = getFormEl('scanCard');
