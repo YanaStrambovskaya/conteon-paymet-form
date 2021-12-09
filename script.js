@@ -1,3 +1,6 @@
+
+
+
 'use strict';
 
 const defaultLanguage = "en";
@@ -49,13 +52,13 @@ const errorClasses = {
 }
 
 const errorSpans = {
-    verifyCode: getById("verify-code-error-span"),
-    authorizedCustomer: getById("authorized-customer-error-span"),
-    cards: getById("cards-error-span"),
-    customer: getById("customer-error-span"),
-    login: getById("login-error-span"),
-    password: getById("password-error-span"),
-    email: getById("email-error-span"),
+    verifyCode: getEl("#verify-code-error-span"),
+    authorizedCustomer: getEl("#authorized-customer-error-span"),
+    cards: getEl("#cards-error-span"),
+    customer: getEl("#customer-error-span"),
+    login: getEl("#login-error-span"),
+    password: getEl("#password-error-span"),
+    email: getEl("#email-error-span"),
 };
 
 let formState = {
@@ -87,6 +90,8 @@ const CUSTOMER = "customer";
 const VERIFY_CODE = "verifyCode";
 const CARDS = "cards";
 const AUTHORIZED_CUSTOMER = "authorizedCustomer";
+const FAIL_STATUS = 'S_FAIL';
+const OK_STATUS = 'S_OK';
 //   CONSTANTS FOR vALIDATION METHOD
 const {body} = document;
 const wordContainers = body.querySelectorAll('[data-lang-tag]');
@@ -189,7 +194,14 @@ const dictionary = {
         ru: "РУ",
         sp: "ИС",
         mainlang: "РУ",
+        expmonth: "Exp Month/Year",
+        cvc: "CVC",
+        cardnumber: "Card Number",
+        cardmanually: "I want input card manually",
         welcometoconteon: "Welcome to Conteon",
+        acceptmanualcard: "By Accepting manual card input I agree with service ",
+        agreement: "agreement ",
+        cardproceed: "of card proceed",
         proceedpayments: "Proceed payments with safe and simple way",
         paybypay: "Pay by Apple Pay/Google Pay",
         startbutton: "Let’s start",
@@ -206,7 +218,8 @@ const dictionary = {
         rememberme: "Запомни меня",
         customer: "Клиент:",
         card: "Карта:",
-        byconfirmyou: "Подтверждая, вы принимаете условия использования",
+        byconfirmyou: "Подтверждая, вы принимаете ",
+        byconfirmyoulink: "условия использования",
         scancardbutton: "Сканировать",
         confirmbutton: "Подтвердить",
         singinbutton: "Войти",
@@ -244,6 +257,13 @@ const dictionary = {
         en: "EN",
         ru: "RU",
         sp: "ES",
+        expmonth: "Exp Month/Year",
+        cvc: "CVC",
+        cardnumber: "Card Number",
+        cardmanually: "I want input card manually",
+        acceptmanualcard: "By Accepting manual card input I agree with service ",
+        agreement: "agreement ",
+        cardproceed: "of card proceed",
         welcometoconteon: "Welcome to Conteon",
         proceedpayments: "Proceed payments with safe and simple way",
         paybypay: "Pay by Apple Pay/Google Pay",
@@ -261,7 +281,8 @@ const dictionary = {
         rememberme: "Remember me",
         customer: "Customer:",
         card: "Card:",
-        byconfirmyou: "By Confirm you are accept service conditions",
+        byconfirmyou: "By Confirm you are accept ",
+        byconfirmyoulink: "service conditions",
         scancardbutton: "Scan Card",
         confirmbutton: "Confirm",
         singinbutton: "Sign In",
@@ -299,6 +320,13 @@ const dictionary = {
         en: "IN",
         ru: "RU",
         sp: "ES",
+        expmonth: "Exp Month/Year",
+        cvc: "CVC",
+        cardnumber: "Card Number",
+        cardmanually: "I want input card manually",
+        acceptmanualcard: "By Accepting manual card input I agree with service ",
+        agreement: "agreement ",
+        cardproceed: "of card proceed",
         welcometoconteon: "Welcome to Conteon",
         proceedpayments: "Proceed payments with safe and simple way",
         paybypay: "Pay by Apple Pay/Google Pay",
@@ -316,7 +344,8 @@ const dictionary = {
         rememberme: "Recuérdame",
         customer: "Cliente:",
         card: "Tarjeta:",
-        byconfirmyou: "Confirma que estás aceptado condiciones de servicio",
+        byconfirmyou: "Confirma que estás aceptado ",
+        byconfirmyoulink: "condiciones de servicio",
         scancardbutton: "Escanear tarjeta",
         confirmbutton: "Confirmar",
         singinbutton: "Registrarse",
@@ -353,30 +382,30 @@ const dictionary = {
 let myApp = {}
 myApp.validation = {
   setErrorUI : function ({status, code, message, fieldSelector}) {
-    const input = getFormEl(fieldSelector);
+    const input = getEl('#' + fieldSelector);
 
     input.classList.add(errorClasses.input);
     addSpanErrorStyles(fieldSelector, message);
     setFormState(false, fieldSelector);
   },
    removeErrorUI: function ({status, code, message, fieldSelector}) {
-    const input = getFormEl(fieldSelector);
+    const input = getEl('#' + fieldSelector);
     input.classList.remove(errorClasses.input);
     removeSpanErrorStyles(fieldSelector, message);
     setFormState(true, fieldSelector);
   },
   form: function (fields) {
     let allValidInfo = {
-      status: 'S_OK',
+      status: OK_STATUS,
       validFieldsInfo: []
     };
     fields.forEach(field => {
-      let el = getFormEl(field);
+      let el = getEl('#' + field);
       let validation = this[field](el.value);
 
-      if (validation.status == 'S_FAIL') {
+      if (validation.status == FAIL_STATUS) {
         this.setErrorUI(validation);
-        allValidInfo.status = 'S_FAIL';
+        allValidInfo.status = FAIL_STATUS;
       } else {
         this.removeErrorUI(validation)
       }
@@ -388,7 +417,7 @@ myApp.validation = {
   email: function(val) {
     if (val.length < 4) {
       return {
-        status : 'S_FAIL',
+        status : FAIL_STATUS,
         code : 3,
         message : messages[formState.language].email.less,
         fieldSelector : 'email'
@@ -396,7 +425,7 @@ myApp.validation = {
     }
     if (val.length > 100) {
       return {
-          status : 'S_FAIL',
+          status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].email.more,
           fieldSelector : 'email'
@@ -404,7 +433,7 @@ myApp.validation = {
     }
     if (emailPattern.test(val)) {
       return {
-          status : 'S_OK',
+          status : OK_STATUS,
           code : '',
           message : '',
           fieldSelector : 'email'
@@ -412,14 +441,14 @@ myApp.validation = {
     }
     if (!val.length) {
       return {
-          status : 'S_FAIL',
+          status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].email.required,
           fieldSelector : 'email'
         }
     }
     return {
-        status : 'S_FAIL',
+        status : FAIL_STATUS,
         code : 3,
         message : messages[formState.language].login.incorrect,
         fieldSelector : 'email'
@@ -428,7 +457,7 @@ myApp.validation = {
   login: function(val) {
     if (!val.length) {
       return {
-          status : 'S_FAIL',
+          status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].login.required,
           fieldSelector : 'login'
@@ -436,14 +465,14 @@ myApp.validation = {
     }
     if (val.length < 3) {
       return {
-          status : 'S_FAIL',
+          status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].login.less,
           fieldSelector : 'login'
         }
     }
     return {
-        status : 'S_OK',
+        status : OK_STATUS,
         code : '',
         message : '',
         fieldSelector : 'login'
@@ -452,7 +481,7 @@ myApp.validation = {
   password: function(val) {
     if (!val.length) {
       return {
-          status : 'S_FAIL',
+          status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].password.required,
           fieldSelector : 'password'
@@ -460,14 +489,14 @@ myApp.validation = {
     }
     if (val.length < 3) {
       return {
-          status : 'S_FAIL',
+          status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].password.less,
           fieldSelector : 'password'
         }
     }
     return {
-        status : 'S_OK',
+        status : OK_STATUS,
         code : '',
         message : '',
         fieldSelector : 'password'
@@ -476,14 +505,14 @@ myApp.validation = {
   customer: function(val) {
     if (!cvvRegexp.test(val) && !holderNameRegexp.test(val)) {
       return {
-          status : 'S_FAIL',
+          status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].customer.required,
           fieldSelector : 'customer'
         }
     }
     return {
-        status : 'S_OK',
+        status : OK_STATUS,
         code : '',
         message : '',
         fieldSelector : 'customer'
@@ -492,14 +521,14 @@ myApp.validation = {
   verifyCode: function(val) {
     if (!verifyCodeRegexp.test(val)) {
       return {
-          status : 'S_FAIL',
+          status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].verifyCode.required,
           fieldSelector : 'verifyCode'
         }
     }
     return {
-        status : 'S_OK',
+        status : OK_STATUS,
         code : '',
         message : '',
         fieldSelector : 'verifyCode'
@@ -508,14 +537,14 @@ myApp.validation = {
   authorizedCustomer: function(val) {
     if (!holderNameRegexp.test(val)) {
       return {
-          status : 'S_FAIL',
+          status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].authorizedCustomer.required,
           fieldSelector : 'authorizedCustomer'
         }
     }
     return {
-        status : 'S_OK',
+        status : OK_STATUS,
         code : '',
         message : '',
         fieldSelector : 'authorizedCustomer'
@@ -524,14 +553,14 @@ myApp.validation = {
   cards: function(val) {
     if (!val.length) {
       return {
-          status : 'S_FAIL',
+          status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].cards.required,
           fieldSelector : 'cards'
         }
     }
     return {
-        status : 'S_OK',
+        status : OK_STATUS,
         code : '',
         message : '',
         fieldSelector : 'cards'
@@ -565,6 +594,16 @@ myApp.baseGet = function (url, content = '', isText = false) {
     xhr.onerror = () => reject(xhr.statusText);
     xhr.send();
   });
+}
+
+function exportFile(url, content) {
+  return fetch(`${BASE_URI}${API_PREFIX}${url}`, {
+      method: 'GET',
+      headers: {
+      'Content-Type': typeof content === 'string' ? 'plain/text' : 'application/json'
+      },
+      body: content,
+  }).then((response) => response.blob());
 }
 
 function render(dictionary, lang) {
@@ -661,10 +700,10 @@ function scanCardPromise (datasource) {
 }
 //scanCard UI
 function scanCard() {
-  const customerInput = getFormEl('customer');
-  const scanButton = getFormEl('scanCard');
-  const cardNumber = getById('cardNumber');
-  const requiredFields = ['customer'];
+  const customerInput = getEl('#customer');
+  const scanButton = getEl('#scanCard');
+  const cardNumber = getEl('#cardNumber');
+  const requiredFields = ['#customer'];
   const data= customerInput.value;
   
   scanButton.innerText = dictionary[formState.language].scanning;
@@ -686,41 +725,41 @@ function scanCard() {
 
 // subscription
 function initSubscription() {
-  getFormEl('byCard').addEventListener('change', () => {
+  getEl('#byCard').addEventListener('change', () => {
     togglePaymentMethod();
     togglePaymentTypeForm();
     disableSubmit();
     hasCard && enableSubmit();
   });
 
-  getFormEl('byCrypto').addEventListener('change', () => {
+  getEl('#byCrypto').addEventListener('change', () => {
     togglePaymentMethod();
     togglePaymentTypeForm();
     disableSubmit();
     authorizedUser && enableSubmit();
   });
 
-  getFormEl('scanCard').addEventListener('click', () => scanCard());
-  getFormEl('signIn').addEventListener('click', () => signIn());
-  getFormEl('submitButton').addEventListener('click', () => onFormSubmit());
-  getById('merchantHeader').addEventListener('click', () => toggleExpand());
-  getById('registerUser')
-      .addEventListener('change', () => getById('emailContainer').toggleAttribute('hidden'));
+  getEl('#scanCard').addEventListener('click', () => scanCard());
+  getEl('#signIn').addEventListener('click', () => signIn());
+  getEl('#submitButton').addEventListener('click', () => onFormSubmit());
+  getEl('#merchantHeader').addEventListener('click', () => toggleExpand());
+  getEl('#registerUser')
+      .addEventListener('change', () => getEl('#emailContainer').toggleAttribute('hidden'));
   document.querySelectorAll('.checkbox')
       .forEach(item => item.addEventListener('change', () => item.toggleAttribute('checked')));
   }
 
 function togglePaymentMethod() {
-  getFormEl('byCard').toggleAttribute('checked');
-  getFormEl('byCrypto').toggleAttribute('checked');
+  getEl('#byCard').toggleAttribute('checked');
+  getEl('#byCrypto').toggleAttribute('checked');
 }
 
 function toggleExpand() {
-  getById('merchantHeader').classList.toggle('expand');
+  getEl('#merchantHeader').classList.toggle('expand');
 }
 
 function toggleLangList(event) {
-  const langList = getById('lang-list');
+  const langList = getEl('#lang-list');
   event.stopPropagation();
   if(!formState.langClass){
       langList.classList.add("dsp-block");
@@ -741,10 +780,10 @@ function fillCardForm() {
     hasCard = true;
     myApp.basePost(API_METHOD.unpackdata, {"value": data})
       .then((payload) => {
-        getFormEl('scanCard').innerText = dictionary[formState.language].updatecard;
-        getById('cardNumber').innerText = payload.tokenName;
-        getFormEl('customer').value = payload.customer;
-        getFormEl('cardToken').value = payload.tokenValue;
+        getEl('#scanCard').innerText = dictionary[formState.language].updatecard;
+        getEl('#cardNumber').innerText = payload.tokenName;
+        getEl('#customer').value = payload.customer;
+        getEl('#cardToken').value = payload.tokenValue;
         enableSubmit();
         _cardToken = payload;
       });
@@ -776,8 +815,8 @@ function signInPromise (datasource) {
 
 function signIn() {
   const requiredFields = ['login', 'password'];
-  const data= {login: getFormEl('login').value,
-            password: getFormEl('password').value};
+  const data= {login: getEl('#login').value,
+            password: getEl('#password').value};
 
   signInPromise(dataSourcePromise(requiredFields, data))
   .then(({validInfo, data}) => {
@@ -791,7 +830,7 @@ function signIn() {
 //signInSuccess
 function signInSuccessPromise (response) {
   return new Promise((resolve, reject) => {
-    if (getFormEl('rememberMe').checked && !localStorage.getItem('ctn-auth-data')) {
+    if (getEl('#rememberMe').checked && !localStorage.getItem('ctn-auth-data')) {
       //TODO basePost(API_METHOD.packdata, response, true)
         localStorage.setItem('ctn-auth-data', 'eyJjdXN0b21lciI6IllVUklJIENIVURJTk9WIiwiaGFzaCI6IlpHVnRieTlrWlcxdiIsImxhbmd1YWdlIjoiZW4ifQ');
     }
@@ -831,12 +870,12 @@ function signInSuccess(response) {
 }
 
 function fillAuthForm(data) {
-  getFormEl('authorizedCustomer').value = data.customer;
+  getEl('#authorizedCustomer').value = data.customer;
   fillOptions(data.methods);
 }
 
 function fillOptions(data) {
-  const select = getFormEl('cards');
+  const select = getEl('#cards');
   data.forEach(item => {
     const option = document.createElement('option');
     option.innerText = item.tokenName;
@@ -865,10 +904,10 @@ function onFormSubmit() {
     "dealDate": "2021-12-08T14:36:10.6874041Z",
     "internalCode": 0
   }
-  let requiredFields = getFormEl('byCard').checked
+  let requiredFields = getEl('#byCard').checked
       ? ['verifyCode', 'customer'] : ['verifyCode', 'authorizedCustomer', 'cards'];
 
-  if (getFormEl('byCard').checked && getFormEl('customer').value.toLowerCase() === 'cvv') {
+  if (getEl('#byCard').checked && getEl('#customer').value.toLowerCase() === 'cvv') {
     requiredFields = requiredFields.filter(item => item !== 'customer');
   }
 
@@ -882,31 +921,31 @@ function onFormSubmit() {
         initErrorPage();
     })
     .finally( () => {
-      getById('formContainer').setAttribute('hidden', 'true');           
+      getEl('#formContainer').setAttribute('hidden', 'true');           
     });
 }
 
 function initSuccessPage() {
-  getById('formContainer').setAttribute('hidden', 'true');
-  getById('successContainer').removeAttribute('hidden');
-  getById('completePayment').addEventListener('click', () => onCompletePayment());
+  getEl('#formContainer').setAttribute('hidden', 'true');
+  getEl('#successContainer').removeAttribute('hidden');
+  getEl('#completePayment').addEventListener('click', () => onCompletePayment());
 }
 
 function initErrorPage() {
-  getById('formContainer').setAttribute('hidden', 'true');
-  getById('errorMessage').innerText = `Error: ${errorPayload.Text}`;
-  getById('errorContainer').removeAttribute('hidden');
+  getEl('#formContainer').setAttribute('hidden', 'true');
+  getEl('#errorMessage').innerText = `Error: ${errorPayload.Text}`;
+  getEl('#errorContainer').removeAttribute('hidden');
 }
 
 function onCompletePayment() {
-  const emailInput = getById('email');
+  const emailInput = getEl('#email');
   const data = {
-    registerMe: getById('registerUser').checked,
+    registerMe: getEl('#registerUser').checked,
     email: emailInput.value || null
   };
 
-  getById('rememberCard').checked && rememberCardToken();
-  getById('registerUser').checked && myApp.validation.form(["email"]);
+  getEl('#rememberCard').checked && rememberCardToken();
+  getEl('#registerUser').checked && myApp.validation.form(["email"]);
   localStorage.setItem("language", formState.language);
 
   exportFile(API_METHOD.export)
@@ -936,20 +975,20 @@ function downloadFile(blob, fileName = 'Payment') {
 
 function rememberCardToken() {
   const keyName = `ctr-${paymentData.facilityData.merchantId}-token`;
-  if (getFormEl('byCrypto').checked) {
-    const cards =  getFormEl('cards');
+  if (getEl('#byCrypto').checked) {
+    const cards =  getEl('#cards');
     const option = cards.options[cards.options.selectedIndex];  
     const data = {
       tokenName: option.textContent,
       tokenValue: option.value,
-      customer: getFormEl('authorizedCustomer').value
+      customer: getEl('#authorizedCustomer').value
     };
     myApp.basePost(API_METHOD.packdata, data, true).then(payload => {
       localStorage.setItem(keyName, payload);
     });
   }
     
-  if (getFormEl('byCard').checked) {
+  if (getEl('#byCard').checked) {
     myApp.basePost(API_METHOD.packdata, _cardToken, true)
         .then(payload => {
           localStorage.setItem(keyName, payload);
@@ -960,12 +999,12 @@ function rememberCardToken() {
 function buildDeal() {
   let payload;
 
-  if (getFormEl('byCard').checked) {
+  if (getEl('#byCard').checked) {
     payload = _cardToken;
   } else {
     payload = {
-      "customer": getFormEl('authorizedCustomer').value,
-      "token": getFormEl('cards').value
+      "customer": getEl('#authorizedCustomer').value,
+      "token": getEl('#cards').value
     };
   }
   return payload;
@@ -995,38 +1034,34 @@ function removeSpanErrorStyles(elementId, error) {
 
 // form methods and get elements methods
 function togglePaymentTypeForm() {
-  [getById('formCard'), getById('formByCrypto')]
+  [getEl('#formCard'), getEl('#formByCrypto')]
       .forEach(element => element.toggleAttribute('hidden'));
 }
 
 function toggleAuthForm() {
-  [getById('formSignIn'), getById('authorizedForm')]
+  [getEl('#formSignIn'), getEl('#authorizedForm')]
   .forEach(element => element.toggleAttribute('hidden'));
 }
 
 function disableSubmit() {
-  const button = getById('submitButton');
+  const button = getEl('#submitButton');
   button.disabled = true;
 }
 
 function enableSubmit() {
-    const button = getById('submitButton');
+    const button = getEl('#submitButton');
     button.disabled = false;
 }
 
-function getFormEl(name) {
-    return document.forms[0][name];
-}
-
-function getById(name) {
-  return document.getElementById(name);
+function getEl(name) {
+  return document.querySelector(name);
 }
 
 function renderFacilityData() {
-  const facilityData = getById("merchantData");
-  const initiator = getById("initiator");
-  const amount = getById("amount");
-  const verifyCode = getById("verifyCode");
+  const facilityData = getEl("#merchantData");
+  const initiator = getEl("#initiator");
+  const amount = getEl("#amount");
+  const verifyCode = getEl("#verifyCode");
   let html = "";
 
   Object.entries(paymentData.facilityData)
@@ -1046,13 +1081,13 @@ function renderFacilityData() {
 
   // MODAL
   
-getById("myBtn").addEventListener('click', function() {
-  const modal = getById("myModal");
+getEl("#myBtn").addEventListener('click', function() {
+  const modal = getEl("#myModal");
   if(!agreementHasLoaded) {
 		myApp.baseGet(API_METHOD.getAgreement, formState.language, true)
 			.then(responce => {
 				modal.innerHTML = responce
-				const closeBtn = getById("modalCloseBtn");
+				const closeBtn = getEl("#modalCloseBtn");
 				closeBtn.onclick = function () {
 				  modal.style.display = "none";
 				}
@@ -1062,9 +1097,39 @@ getById("myBtn").addEventListener('click', function() {
     modal.style.display = "block";
 })
 
+function welcome() {
+  let payByCardBlock = getEl('[data-related-block="payByCard"]');
+  let startBtn = getEl('#start button');
+  let cardManuallyBlock = getEl('[data-related-block="cardManually"]')
+
+  getEl('#payByPay').addEventListener('click', function() {
+    payByCardBlock.hidden = true;
+    startBtn.disabled = false;
+    cardManuallyBlock.hidden = true;
+    startBtn.addEventListener('click', function(){
+      getEl('.welcome-container').style.display = 'none';
+      getEl('#formContainer').hidden = false;
+    })
+  });
+
+  getEl('#payByCard').addEventListener('click', function() {
+    payByCardBlock.hidden = false;
+    startBtn.disabled = true;
+  });
+
+  getEl('#cardManually').addEventListener('click', function() {
+    cardManuallyBlock.toggleAttribute('hidden');
+  })
+}
+
 window.onload = () => {
-  detectLanguage(navigator.languages[0].slice(0,2));
-  fillCardForm();
-  signInSuccess();
-  initSubscription();
+  myApp.baseGet(API_METHOD.getdetails, "")
+        .then(responce => {
+        paymentData = responce;
+          detectLanguage(navigator.languages[0].slice(0,2));
+          fillCardForm();
+          signInSuccess();
+          initSubscription();
+          welcome();
+        });
 }

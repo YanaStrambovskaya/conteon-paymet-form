@@ -14,13 +14,10 @@
 <body>
 <section id="formContainer"  class="container" hidden>
     <!-- Modal -->
-    <div id="myModal" class="modal">
-        <!-- Modal -->
-    </div>
+    <div id="myModal" class="modal"> </div>
     <!-- Modal -->
     <div class="merchant-container">
-        <header id="merchantHeader"
-                class="merchant-header">
+        <header id="merchantHeader" class="merchant-header">
             <h1 class="merchant-title" data-lang-tag="facilitytitle">
                 Facility Data
             </h1>
@@ -32,7 +29,7 @@
                 </div>
                 <div id="lang-list" class="language-list" onclick="abortClickOnParent(event)">
                      <div class="item-lang-list-wrapper" >
-                        <span class="lang-span"  data-lang-tag="en" data-lang="en"></span>
+                        <span class="lang-span" data-lang-tag="en" data-lang="en"></span>
                     </div>
                      <div class="item-lang-list-wrapper">
                         <span class="lang-span" data-lang="ru" data-lang-tag="ru"></span>
@@ -46,83 +43,50 @@
         </div>
         <!-- EXPANDER WITH LANGUAGE SWITCHER CONTAINER -->
         </header>
-
         <div id="merchantData"
              class="merchant-data">
         </div>
     </div>
 
     <div class="form-control">
-        <label class="label"
-               for="initiator" data-lang-tag="initiatordetails">
+        <label class="label" for="initiator" data-lang-tag="initiatordetails">
             initiator details:
         </label>
-
-        <input id="initiator"
-               class="control"
-               type="text"
-               disabled>
+        <input id="initiator" class="control" type="text" disabled>
     </div>
 
     <div class="form-control">
-        <label class="label"
-               for="amount" data-lang-tag="amount">
+        <label class="label" for="amount" data-lang-tag="amount">
             amount:
         </label>
-
-        <input id="amount"
-               class="control"
-               type="text"
-               disabled>
+        <input id="amount" class="control" type="text" disabled>
     </div>
 
     <form class="form">
         <div class="form-control">
-            <label class="label"
-                   for="verifyCode" data-lang-tag="trantvc">
+            <label class="label" for="verifyCode" data-lang-tag="trantvc">
                 tran tvc:
             </label>
 
             <div class="inp-err-wrapper">
-                <input id="verifyCode"
-                       class="control"
-                       type="text">
+                <input id="verifyCode" class="control" type="text">
                 <span id="verify-code-error-span" class="error-msg"></span>
             </div>
         </div>
 
         <div class="payment-method">
             <div class="radiobutton-container">
-                <input id="byCard"
-                       class="radiobutton"
-                       name="pay-type"
-                       value="byCard"
-                       checked
-                       type="radio">
-
-                <label class="radiobutton-ui"
-                       for="byCard">
-                </label>
-
-                <label class="label"
-                       for="byCard" data-lang-tag="paybycard">
+                <input id="byCard" class="radiobutton" name="pay-type" value="byCard" checked type="radio">
+                <label class="radiobutton-ui"  for="byCard"> </label>
+                <label class="label" for="byCard" data-lang-tag="paybycard">
                     Pay by Card
                 </label>
             </div>
 
             <div class="radiobutton-container">
-                <input id="byCrypto"
-                       class="radiobutton"
-                       name="pay-type"
-                       value="byCrypto"
-                       type="radio">
-
-                <label class="radiobutton-ui"
-                       for="byCrypto">
-                </label>
-
-                <label class="label"
-                       for="byCrypto" data-lang-tag="paybycrypto">
+                <input id="byCrypto" class="radiobutton" name="pay-type" value="byCrypto" type="radio">
+                <label class="radiobutton-ui" for="byCrypto"> </label>
+                <label class="label" for="byCrypto" data-lang-tag="paybycrypto">
                       Another Method
                 </label>
             </div>
@@ -131,121 +95,84 @@
         <div id="formCard"
              class="form-card">
             <div class="form-control">
-                <label class="label"
-                       for="customer" data-lang-tag="cvvorholder">
+                <label class="label" for="customer" data-lang-tag="cvvorholder">
                     CVV or Holder Name:
                 </label>
                 <div class="inp-err-wrapper">
-                    <input id="customer"
-                           class="control"
-                           type="text" placeholder="111">
+                    <input id="customer" class="control" type="text" placeholder="111">
                     <span id="customer-error-span" class="error-msg"></span>
                 </div>
-                <input id="cardToken"
-                       class="input"
-                       type="text"
-                       hidden>
+                <input id="cardToken" class="input" type="text" hidden>
             </div>
-
             <div class="submit-container">
-                <p id="cardNumber"
-                   class="description" data-lang-tag="scancardbyemitter">
+                <p id="cardNumber"  class="description" data-lang-tag="scancardbyemitter">
                     Scan Card by Emitter
                 </p>
-
-                <button id="scanCard"
-                        class="button-submit"
-                        type="button" data-lang-tag="scancardbutton">
+                <button id="scanCard" class="button-submit" type="button" data-lang-tag="scancardbutton">
                     Scan Card
                 </button>
             </div>
         </div>
 
-        <div id="formByCrypto"
-             hidden>
-            <div id="formSignIn"
-                 class="form-sign-in">
+        <div id="formByCrypto" hidden>
+            <div id="formSignIn" class="form-sign-in">
                 <div class="form-control">
-                    <label class="label"
-                           for="login" data-lang-tag="login">
+                    <label class="label" for="login" data-lang-tag="login">
                         login:
                     </label>
                     <div class="inp-err-wrapper">
-                        <input id="login"
-                               class="control"
-                               type="text">
+                        <input id="login" class="control" type="text">
                         <span id="login-error-span" class="error-msg"></span>
                     </div>
                 </div>
 
                 <div class="form-control">
-                    <label class="label"
-                           for="password" data-lang-tag="password">
+                    <label class="label" for="password" data-lang-tag="password">
                         password:
                     </label>
 
                     <div class="inp-err-wrapper">
-                        <input id="password"
-                               class="control"
-                               type="password">
+                        <input id="password" class="control" type="password">
                         <span id="password-error-span" class="error-msg"></span>
                     </div>
                 </div>
 
                 <div class="submit-container">
                     <div class="checkbox-container">
-                        <input id="rememberMe"
-                               class="checkbox"
-                               type="checkbox">
+                        <input id="rememberMe" class="checkbox" type="checkbox">
 
-                        <label class="control"
-                               for="rememberMe">
+                        <label class="control" for="rememberMe">
                         </label>
 
-                        <label class="label"
-                               for="rememberMe" data-lang-tag="rememberme">
+                        <label class="label" for="rememberMe" data-lang-tag="rememberme">
                             Remember me
                         </label>
                     </div>
 
-                    <button id="signIn"
-                            class="button-submit"
-                            type="button" data-lang-tag="singinbutton">
+                    <button id="signIn" class="button-submit" type="button" data-lang-tag="singinbutton">
                         Sign In
                     </button>
                 </div>
             </div>
 
-            <div id="authorizedForm"
-                 class="form-authorized"
-                 hidden>
+            <div id="authorizedForm" class="form-authorized" hidden>
                 <div class="form-control">
-                    <label class="label"
-                           for="authorizedCustomer" data-lang-tag="customer">
+                    <label class="label" for="authorizedCustomer" data-lang-tag="customer">
                         customer:
                     </label>
-
                     <div class="inp-err-wrapper">
-                        <input id="authorizedCustomer"
-                               class="control"
-                               type="text">
+                        <input id="authorizedCustomer" class="control" type="text">
                         <span id="authorized-customer-error-span" class="error-msg"></span>
                     </div>
                 </div>
-
                 <div class="form-control">
-                    <label class="label"
-                           for="cards" data-lang-tag="card">
+                    <label class="label" for="cards" data-lang-tag="card">
                         card:
                     </label>
-
                     <div class="inp-err-wrapper">
-                        <select id="cards"
-                                class="control"
-                                name="cards" >
+                        <select id="cards" class="control" name="cards" >
                             <option value="" data-lang-tag="choosewallet" >Choose Wallet</option>
                         </select>
-
                         <span id="cards-error-span" class="error-msg"></span>
                     </div>
                 </div>
@@ -270,42 +197,26 @@
     </form>
 </section>
 
-<div id="successContainer"
-     class="container success-container"
-     hidden>
+<div id="successContainer" class="container success-container" hidden>
     <div class="response-logo">
         <svg width="116" height="116" viewBox="0 0 116 116" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M115.143 52.7756V58.0327C115.136 70.3552 111.146 82.3452 103.768 92.2146C96.3895 102.084 86.0188 109.304 74.202 112.798C62.3853 116.292 49.7558 115.872 38.197 111.602C26.6382 107.331 16.7695 99.439 10.0626 89.1017C3.35581 78.7644 0.17024 66.536 0.981015 54.2402C1.79179 41.9445 6.55547 30.2403 14.5616 20.8732C22.5677 11.506 33.3873 4.97778 45.4068 2.26215C57.4262 -0.453488 70.0015 0.788953 81.2572 5.80417M115.143 12.3185L58 69.5185L40.8571 52.3757"
                   stroke="#00C48C" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </div>
-
-    <h1 class="title" data-lang-tag="thankyou">
-        Thank You
-    </h1>
-
+    <h1 class="title" data-lang-tag="thankyou"> Thank You </h1>
     <p class="description" data-lang-tag="clickdone">
         Please click Done button to get receipt and complete this operation
     </p>
-
     <div class="remember-container">
         <div class="checkbox-container">
-            <input id="rememberCard"
-                   class="checkbox"
-                   type="checkbox">
-
-            <label class="control"
-                   for="rememberCard">
-            </label>
-
+            <input id="rememberCard" class="checkbox" type="checkbox">
+            <label class="control" for="rememberCard"></label>
             <div class="label-container">
-                <label class="label"
-                       for="rememberCard">
+                <label class="label" for="rememberCard">
                     <b><span data-lang-tag="remember">Remember</span></b> <span data-lang-tag="cardtoken">Card Token</span>
                 </label>
-
-                <label class="label-tip"
-                       for="rememberCard" data-lang-tag="securelystoring">
+                <label class="label-tip" for="rememberCard" data-lang-tag="securelystoring">
                     We securely storing card token in your browser storage
                 </label>
             </div>
@@ -313,69 +224,44 @@
     </div>
 
     <div class="checkbox-container">
-        <input id="registerUser"
-               class="checkbox"
-               type="checkbox">
-
-        <label class="control"
-               for="registerUser">
-        </label>
-
+        <input id="registerUser" class="checkbox" type="checkbox">
+        <label class="control" for="registerUser"></label>
         <div class="label-container">
-            <label class="label"
-                   for="registerUser">
+            <label class="label" for="registerUser">
                 <b><span data-lang-tag="register">Register</span></b> <span data-lang-tag="meinconteon">me in Conteon</span>
             </label>
-
-            <label class="label-tip"
-                   for="registerUser" data-lang-tag="sendaninvitation">
+            <label class="label-tip" for="registerUser" data-lang-tag="sendaninvitation">
                 We send an invitation mail with the link on mail above
             </label>
         </div>
     </div>
-
-    <div id="emailContainer"
-         class="form-control email-container"
-         hidden>
-        <label class="label"
-               for="email" data-lang-tag="emaillabel">
+    <div id="emailContainer" class="form-control email-container" hidden>
+        <label class="label" for="email" data-lang-tag="emaillabel">
             email:
         </label>
         <!-- ADD VALIDATION TO THIS INPUT AND ERROR DISPLAY -->
         <div class="inp-err-wrapper">
-            <input id="email"
-                   class="control"
-                   type="email">
+            <input id="email" class="control" type="email">
             <span id="email-error-span" class="error-msg"></span>
         </div>
     </div>
-
-    <button id="completePayment"
-            class="button-submit" data-lang-tag="completebutton">
+    <button id="completePayment" class="button-submit" data-lang-tag="completebutton">
         Complete
     </button>
 </div>
 
-<div id="errorContainer"
-     class="container error-container"
-     hidden>
+<div id="errorContainer" class="container error-container" hidden>
     <div class="response-logo">
         <svg width="117" height="118" viewBox="0 0 117 118" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M75.6428 41.8571L41.3571 76.1428M41.3571 41.8571L75.6428 76.1428M115.643 59C115.643 90.5591 90.0591 116.143 58.5 116.143C26.9408 116.143 1.35712 90.5591 1.35712 59C1.35712 27.4408 26.9408 1.85712 58.5 1.85712C90.0591 1.85712 115.643 27.4408 115.643 59Z"
                   stroke="#FF647C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </div>
-
     <h1 class="title" data-lang-tag="badthing">
         Bad thing happens
     </h1>
-
-    <p id="errorMessage"
-       class="error-message">
-    </p>
-
-    <button class="button-submit"
-            type="button" data-lang-tag="closebutton">
+    <p id="errorMessage" class="error-message"> </p>
+    <button class="button-submit" type="button" data-lang-tag="closebutton">
         Close
     </button>
 </div>
@@ -386,7 +272,6 @@
     </svg>
     <h1 data-lang-tag="welcometoconteon">Welcome to Conteon</h1>
     <h2 data-lang-tag="proceedpayments">Proceed payments with safe and simple way</h2>
-    
     <div class="radiobutton-container">
         <input id="payByPay" class="radiobutton" name="pay-type2" value="payByPay" type="radio">
         <label class="radiobutton-ui" for="payByPay"></label>
@@ -398,11 +283,69 @@
         <label class="label" for="payByCard" data-lang-tag="paybycard">Pay by card</label>
     </div>
 
+    <div data-related-block="payByCard" hidden>
+        <div class="submit-container">
+            <p data-lang-tag="scancardbyemitter">
+                Scan Card by Emitter
+            </p>
+            <button id="scanCard" class="button-submit" type="button" data-lang-tag="scancardbutton">
+                Scan Card
+            </button>
+        </div>
+        <div class="submit-container">
+            <div class="checkbox-container">
+                <input id="cardManually" class="checkbox" type="checkbox">
+                <label class="control" for="cardManually"></label>
+                <label class="label" for="cardManually" data-lang-tag="cardmanually">
+                    I want input card manually
+                </label>
+            </div>
+            <p class="link-wrap">
+                <span data-lang-tag="acceptmanualcard">By Accepting manual card input I agree with service </span>
+                <a class="link" href="#" data-lang-tag="agreement">agreement </a>
+                <span data-lang-tag="cardproceed">of card proceed</span>
+            </p>
+        </div>
+    </div>
+
+    <form class="form" data-related-block="cardManually" hidden>
+        <div class="form-control">
+            <label class="label" for="cardNumber" data-lang-tag="cardnumber">
+                Card Number
+            </label>
+            <div class="inp-err-wrapper">
+                <input id="cardNumber" class="control" type="text">
+                <span id="verify-code-error-span" class="error-msg"></span>
+            </div>
+        </div>
+        <div class="form-control float-left">
+            <label class="label" for="expMonth" data-lang-tag="expmonth">
+                Exp Month/Year
+            </label>
+            <div class="inp-err-wrapper">
+                <input id="expMonth" class="control" type="date">
+                <span id="verify-code-error-span" class="error-msg"></span>
+            </div>
+        </div>
+        <div class="form-control float-right">
+            <label class="label" for="cvc" data-lang-tag="cvc">
+                CVC
+            </label>
+            <div class="inp-err-wrapper">
+                <input id="cvc" class="control" type="text">
+                <span id="verify-code-error-span" class="error-msg"></span>
+            </div>
+        </div>
+    </form>
+
     <div id="start" class="submit-container">
-        <button id="submitButton" class="button-submit confirm" type="button" disabled="" data-lang-tag="startbutton">Let’s start</button>
-        <a id="myBtn" class="link" href="#">
-            <p class="description service-conditions" data-lang-tag="byconfirmyou">Подтверждая, вы принимаете условия использования</p>
-        </a>
+        <button class="button-submit confirm" type="button" disabled="" data-lang-tag="startbutton">
+            Let’s start
+        </button>
+        <p class="description service-conditions">
+            <span data-lang-tag="byconfirmyou">Подтверждая, вы принимаете </span>
+            <a id="myBtn" href="#" data-lang-tag="byconfirmyoulink">условия использования</a>
+        </p>
     </div>
 </div>
 

@@ -62,12 +62,42 @@
         height: 100%;
         display: flex;
         flex-direction: column;
+        margin: 0 auto;
+    }
+
+    .welcome-container .submit-container p, .welcome-container .checkbox-container label {
+        font-size: 15px;
+    }
+
+    .welcome-container .submit-container .link-wrap {
+        font-size: 11px;
+        margin-top: 10px;
+    }
+
+    .welcome-container .form-control.float-left {
+        width: 48%;
+        float: left;
+    }
+
+    .welcome-container .form-control.float-right {
+        width: 48%;
+        float: right;
     }
 
     .welcome-container svg {
         margin: 0 auto;
-        display: block;
-        text-align: center;
+        /* margin-top: 83px; */
+    }
+
+    .welcome-container .submit-container .description {
+        margin-top: 10px;
+        text-align: left;
+        font-size: 11px;
+        color: #6979F8;
+    }
+
+    .welcome-container .submit-container .description a{
+        color: #6979F8;
     }
 
     .welcome-container h1 {
@@ -94,6 +124,7 @@
         flex-grow: 1;
         display: flex;
         align-content: flex-end;
+        margin-bottom: 25px;
     }
     
     .merchant-container {
