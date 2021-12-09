@@ -70,7 +70,7 @@
 
             <div class="inp-err-wrapper">
                 <input id="verifyCode" class="control" type="text">
-                <span id="verify-code-error-span" class="error-msg"></span>
+                <span id="verifyCode-error-span" class="error-msg"></span>
             </div>
         </div>
 
@@ -105,7 +105,7 @@
                 <input id="cardToken" class="input" type="text" hidden>
             </div>
             <div class="submit-container">
-                <p id="cardNumber"  class="description" data-lang-tag="scancardbyemitter">
+                <p class="description" data-lang-tag="scancardbyemitter">
                     Scan Card by Emitter
                 </p>
                 <button id="scanCard" class="button-submit" type="button" data-lang-tag="scancardbutton">
@@ -162,7 +162,7 @@
                     </label>
                     <div class="inp-err-wrapper">
                         <input id="authorizedCustomer" class="control" type="text">
-                        <span id="authorized-customer-error-span" class="error-msg"></span>
+                        <span id="authorizedCustomer-error-span" class="error-msg"></span>
                     </div>
                 </div>
                 <div class="form-control">
@@ -187,12 +187,10 @@
                     disabled data-lang-tag="confirmbutton">
                 Confirm
             </button>
-            <a id="myBtn" class="link" href="#">
-                <p class="description service-conditions" data-lang-tag="byconfirmyou">
-                    By Confirm you are accept
-                    <span data-lang-tag="serviceconditions">service conditions</span>
-                </p>
-            </a>
+            <p class="description service-conditions">
+                <span data-lang-tag="byconfirmyou">Подтверждая, вы принимаете </span>
+                <a class="myBtn link" href="#" data-lang-tag="byconfirmyoulink">условия использования</a>
+            </p>
         </div>
     </form>
 </section>
@@ -300,9 +298,9 @@
                     I want input card manually
                 </label>
             </div>
-            <p class="link-wrap">
+            <p class="link-wrap description service-conditions">
                 <span data-lang-tag="acceptmanualcard">By Accepting manual card input I agree with service </span>
-                <a class="link" href="#" data-lang-tag="agreement">agreement </a>
+                <a href="#" data-lang-tag="agreement">agreement </a>
                 <span data-lang-tag="cardproceed">of card proceed</span>
             </p>
         </div>
@@ -314,8 +312,8 @@
                 Card Number
             </label>
             <div class="inp-err-wrapper">
-                <input id="cardNumber" class="control" type="text">
-                <span id="verify-code-error-span" class="error-msg"></span>
+                <input id="cardNumber" class="control" type="text" name="cardNumber" placeholder="0000 0000 0000 0000">
+                <span id="cardNumber-error-span" class="error-msg"></span>
             </div>
         </div>
         <div class="form-control float-left">
@@ -323,8 +321,8 @@
                 Exp Month/Year
             </label>
             <div class="inp-err-wrapper">
-                <input id="expMonth" class="control" type="date">
-                <span id="verify-code-error-span" class="error-msg"></span>
+                <input id="expMonth" class="control" type="date" name="expMonth" required>
+                <span id="expMonth-error-span" class="error-msg"></span>
             </div>
         </div>
         <div class="form-control float-right">
@@ -332,8 +330,8 @@
                 CVC
             </label>
             <div class="inp-err-wrapper">
-                <input id="cvc" class="control" type="text">
-                <span id="verify-code-error-span" class="error-msg"></span>
+                <input id="cvc" class="control" type="text" name="cvc" placeholder="111">
+                <span id="cvc-error-span" class="error-msg"></span>
             </div>
         </div>
     </form>
@@ -344,7 +342,7 @@
         </button>
         <p class="description service-conditions">
             <span data-lang-tag="byconfirmyou">Подтверждая, вы принимаете </span>
-            <a id="myBtn" href="#" data-lang-tag="byconfirmyoulink">условия использования</a>
+            <a class="myBtn" href="#" data-lang-tag="byconfirmyoulink">условия использования</a>
         </p>
     </div>
 </div>

@@ -51,15 +51,9 @@ const errorClasses = {
     input: "invalid"
 }
 
-const errorSpans = {
-    verifyCode: getEl("#verify-code-error-span"),
-    authorizedCustomer: getEl("#authorized-customer-error-span"),
-    cards: getEl("#cards-error-span"),
-    customer: getEl("#customer-error-span"),
-    login: getEl("#login-error-span"),
-    password: getEl("#password-error-span"),
-    email: getEl("#email-error-span"),
-};
+function getErrorSpans (selector) {
+  return getEl(`${selector}-error-span`);
+}
 
 let formState = {
     login: true,
@@ -124,6 +118,17 @@ const messages = {
         },
         cards: {
             required: "Должно быть (3-4 цифры) или Имя(ie. Ivan Petrov)",
+        },
+        cardNumber: {
+          required: "Обязательное поле",
+          incorrect: "Должно быть 16 символов",
+        },
+        expMonth: {
+          required: "Выберите дату",
+        },
+        cvc: {
+          required: "Обязательное поле",
+          less: "Должно быть 3 символа",
         }
     },
     en: {
@@ -152,6 +157,17 @@ const messages = {
         },
         cards: {
             required: "Должно быть (3-4 цифры) или Имя(ie. Ivan Petrov)",
+        },
+        cardNumber: {
+          required: "Required field",
+          incorrect: "Should be 16 symbols",
+        },
+        expMonth: {
+          required: "Select the date",
+        },
+        cvc: {
+          required: "Required field",
+          less: "Should be 3 symbols",
         }
     },
     sp: {
@@ -184,6 +200,17 @@ const messages = {
         cards: {
             required: "Должно быть (3-4 цифры) или Имя(ie. Ivan Petrov)",
             // required:"Please input CVV (3-4 digits) or Valid holder name (ie. Ivan Petrov)",
+        },
+        cardNumber: {
+          required: "Campo obligatorio",
+          incorrect: "16 símbolos",
+        },
+        expMonth: {
+          required: "Select the date",
+        },
+        cvc: {
+          required: "Campo obligatorio",
+          less: "3 símbolos",
         }
     },
 }
@@ -382,14 +409,13 @@ const dictionary = {
 let myApp = {}
 myApp.validation = {
   setErrorUI : function ({status, code, message, fieldSelector}) {
-    const input = getEl('#' + fieldSelector);
-
+    const input = getEl(fieldSelector);
     input.classList.add(errorClasses.input);
     addSpanErrorStyles(fieldSelector, message);
     setFormState(false, fieldSelector);
   },
    removeErrorUI: function ({status, code, message, fieldSelector}) {
-    const input = getEl('#' + fieldSelector);
+    const input = getEl(fieldSelector);
     input.classList.remove(errorClasses.input);
     removeSpanErrorStyles(fieldSelector, message);
     setFormState(true, fieldSelector);
@@ -399,9 +425,10 @@ myApp.validation = {
       status: OK_STATUS,
       validFieldsInfo: []
     };
-    fields.forEach(field => {
-      let el = getEl('#' + field);
-      let validation = this[field](el.value);
+    fields.forEach(selector => {
+      let el = getEl(selector);
+      let fieldName = selector.replace(/^[#,\.]?/, '');
+      let validation = this[fieldName](el.value);
 
       if (validation.status == FAIL_STATUS) {
         this.setErrorUI(validation);
@@ -420,7 +447,7 @@ myApp.validation = {
         status : FAIL_STATUS,
         code : 3,
         message : messages[formState.language].email.less,
-        fieldSelector : 'email'
+        fieldSelector : '#email'
       }
     }
     if (val.length > 100) {
@@ -428,15 +455,15 @@ myApp.validation = {
           status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].email.more,
-          fieldSelector : 'email'
+          fieldSelector : '#email'
         }
     }
     if (emailPattern.test(val)) {
       return {
           status : OK_STATUS,
-          code : '',
+          code : null,
           message : '',
-          fieldSelector : 'email'
+          fieldSelector : '#email'
         }
     }
     if (!val.length) {
@@ -444,14 +471,14 @@ myApp.validation = {
           status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].email.required,
-          fieldSelector : 'email'
+          fieldSelector : '#email'
         }
     }
     return {
         status : FAIL_STATUS,
         code : 3,
         message : messages[formState.language].login.incorrect,
-        fieldSelector : 'email'
+        fieldSelector : '#email'
       }
   },
   login: function(val) {
@@ -460,7 +487,7 @@ myApp.validation = {
           status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].login.required,
-          fieldSelector : 'login'
+          fieldSelector : '#login'
         }
     }
     if (val.length < 3) {
@@ -468,14 +495,14 @@ myApp.validation = {
           status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].login.less,
-          fieldSelector : 'login'
+          fieldSelector : '#login'
         }
     }
     return {
         status : OK_STATUS,
-        code : '',
+        code : null,
         message : '',
-        fieldSelector : 'login'
+        fieldSelector : '#login'
       }
   },
   password: function(val) {
@@ -484,7 +511,7 @@ myApp.validation = {
           status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].password.required,
-          fieldSelector : 'password'
+          fieldSelector : '#password'
         }
     }
     if (val.length < 3) {
@@ -492,14 +519,14 @@ myApp.validation = {
           status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].password.less,
-          fieldSelector : 'password'
+          fieldSelector : '#password'
         }
     }
     return {
         status : OK_STATUS,
-        code : '',
+        code : null,
         message : '',
-        fieldSelector : 'password'
+        fieldSelector : '#password'
       };
   },
   customer: function(val) {
@@ -508,14 +535,14 @@ myApp.validation = {
           status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].customer.required,
-          fieldSelector : 'customer'
+          fieldSelector : '#customer'
         }
     }
     return {
         status : OK_STATUS,
-        code : '',
+        code : null,
         message : '',
-        fieldSelector : 'customer'
+        fieldSelector : '#customer'
       }
   },
   verifyCode: function(val) {
@@ -524,14 +551,14 @@ myApp.validation = {
           status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].verifyCode.required,
-          fieldSelector : 'verifyCode'
+          fieldSelector : '#verifyCode'
         }
     }
     return {
         status : OK_STATUS,
-        code : '',
+        code : null,
         message : '',
-        fieldSelector : 'verifyCode'
+        fieldSelector : '#verifyCode'
       }
   },
   authorizedCustomer: function(val) {
@@ -540,14 +567,14 @@ myApp.validation = {
           status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].authorizedCustomer.required,
-          fieldSelector : 'authorizedCustomer'
+          fieldSelector : '#authorizedCustomer'
         }
     }
     return {
         status : OK_STATUS,
-        code : '',
+        code : null,
         message : '',
-        fieldSelector : 'authorizedCustomer'
+        fieldSelector : '#authorizedCustomer'
       }
   },
   cards: function(val) {
@@ -556,16 +583,80 @@ myApp.validation = {
           status : FAIL_STATUS,
           code : 3,
           message : messages[formState.language].cards.required,
-          fieldSelector : 'cards'
+          fieldSelector : '#cards'
         }
     }
     return {
         status : OK_STATUS,
-        code : '',
+        code : null,
         message : '',
-        fieldSelector : 'cards'
+        fieldSelector : '#cards'
       }
-  }
+  },
+  cardNumber: function(val) {
+    if (!val.length) {
+      return {
+          status : FAIL_STATUS,
+          code : 3,
+          message : messages[formState.language].cardNumber.required,
+          fieldSelector : '#cardNumber'
+        }
+    };
+    if (val.replace(/\s/g, '').length != 16) {
+      return {
+          status : FAIL_STATUS,
+          code : 3,
+          message : messages[formState.language].cardNumber.incorrect,
+          fieldSelector : '#cardNumber'
+        }
+    }
+    return {
+      status : OK_STATUS,
+      code : null,
+      message : '',
+      fieldSelector : '#cardNumber'
+    }
+  },
+  expMonth: function (val) {
+    if (!val.length) {
+      return {
+          status : FAIL_STATUS,
+          code : 3,
+          message : messages[formState.language].expMonth.required,
+          fieldSelector : '#expMonth'
+        }
+    };
+    return {
+      status : OK_STATUS,
+      code : null,
+      message : '',
+      fieldSelector : '#expMonth'
+    }
+  },
+  cvc: function (val) {
+    if (!val.length) {
+      return {
+          status : FAIL_STATUS,
+          code : 3,
+          message : messages[formState.language].cvc.required,
+          fieldSelector : '#cvc'
+        }
+    };
+    if (val.length > 0 && val.length < 3) {
+      return {
+          status : FAIL_STATUS,
+          code : 3,
+          message : messages[formState.language].cvc.less,
+          fieldSelector : '#cvc'
+        }
+    };
+    return {
+      status : OK_STATUS,
+      code : null,
+      message : '',
+      fieldSelector : '#cvc'
+    }
+  },
 };
 
 myApp.basePost = function (url, content, isText = false) {
@@ -596,16 +687,6 @@ myApp.baseGet = function (url, content = '', isText = false) {
   });
 }
 
-function exportFile(url, content) {
-  return fetch(`${BASE_URI}${API_PREFIX}${url}`, {
-      method: 'GET',
-      headers: {
-      'Content-Type': typeof content === 'string' ? 'plain/text' : 'application/json'
-      },
-      body: content,
-  }).then((response) => response.blob());
-}
-
 function render(dictionary, lang) {
   for (const container of wordContainers) {
 		if (container.dataset.langTag ==='scancardbyemitter') {
@@ -622,8 +703,7 @@ function render(dictionary, lang) {
 
 // Language
 function translate(lang) {
-  console.log(lang);
-    formState.language !== lang && render(dictionary[lang], lang);
+  formState.language !== lang && render(dictionary[lang], lang);
 }
 
 function switcher(event) {
@@ -642,7 +722,6 @@ function detectLanguage(lang) {
       translate(stLang);
   } else {
     const index = ourLanguages.findIndex(e => e === lang);
-    console.log(index);
     index === -1 ? translate(defaultLanguage) : translate(lang);
   }
 }
@@ -812,9 +891,8 @@ function signInPromise (datasource) {
     }).catch(err => reject(err))
   })
 }
-
 function signIn() {
-  const requiredFields = ['login', 'password'];
+  const requiredFields = ['#login', '#password'];
   const data= {login: getEl('#login').value,
             password: getEl('#password').value};
 
@@ -904,8 +982,8 @@ function onFormSubmit() {
     "dealDate": "2021-12-08T14:36:10.6874041Z",
     "internalCode": 0
   }
-  let requiredFields = getEl('#byCard').checked
-      ? ['verifyCode', 'customer'] : ['verifyCode', 'authorizedCustomer', 'cards'];
+
+  let requiredFields = getEl('#byCard').checked ? ['#verifyCode', '#customer'] : ['#verifyCode', '#authorizedCustomer', '#cards'];
 
   if (getEl('#byCard').checked && getEl('#customer').value.toLowerCase() === 'cvv') {
     requiredFields = requiredFields.filter(item => item !== 'customer');
@@ -945,7 +1023,7 @@ function onCompletePayment() {
   };
 
   getEl('#rememberCard').checked && rememberCardToken();
-  getEl('#registerUser').checked && myApp.validation.form(["email"]);
+  getEl('#registerUser').checked && myApp.validation.form({formSelector: '#emitter', fields: ["#email"]});
   localStorage.setItem("language", formState.language);
 
   exportFile(API_METHOD.export)
@@ -1019,15 +1097,15 @@ function setFormState(state, inputName) {
 }
 
 // TOGGLE ERROR STYLES ON SPANS
-function addSpanErrorStyles(elementId, error) {
-  const element = errorSpans[elementId];
+function addSpanErrorStyles(elementSelector, error) {
+  const element = getErrorSpans(elementSelector);
   element.classList.add(errorClasses.span);
   element.textContent = error;
 }
 
 // TOGGLE ERROR STYLES ON SPANS
-function removeSpanErrorStyles(elementId, error) {
-  const element = errorSpans[elementId];
+function removeSpanErrorStyles(elementSelector, error) {
+  const element = getErrorSpans(elementSelector);
   element.classList.remove(errorClasses.span);
   element.textContent = error;
 }
@@ -1053,8 +1131,8 @@ function enableSubmit() {
     button.disabled = false;
 }
 
-function getEl(name) {
-  return document.querySelector(name);
+function getEl(el) {
+  return document.querySelector(el);
 }
 
 function renderFacilityData() {
@@ -1081,7 +1159,7 @@ function renderFacilityData() {
 
   // MODAL
   
-getEl("#myBtn").addEventListener('click', function() {
+getEl(".myBtn").addEventListener('click', function() {
   const modal = getEl("#myModal");
   if(!agreementHasLoaded) {
 		myApp.baseGet(API_METHOD.getAgreement, formState.language, true)
@@ -1097,11 +1175,63 @@ getEl("#myBtn").addEventListener('click', function() {
     modal.style.display = "block";
 })
 
+function setCursorPosition (pos, el) {
+        
+  el.focus();
+  if (el.setSelectionRange) {
+      el.setSelectionRange(pos, pos);
+  } else if (el.createTextRange) {
+      let range = el.createTextRange();
+      range.collapse(true);
+      range.moveEnd('character', pos);
+      range.moveStart('character', pos);
+      range.select();
+  }
+}
+
+function cardMask (selector) {
+  function createMask(e) {
+    let matrix = '____ ____ ____ ____',
+        i = 0,
+        val = this.value.replace(/\D/g, '');
+
+        this.value = matrix.replace(/./g, function (a) {
+            if (/[_\d]/.test(a) && (i < val.length)) {
+              return (val.charAt(i++))
+            } else  if (i >= val.length){ return '' }
+            else {return a}
+        })
+        setCursorPosition(this.value.length, this);
+    }
+    let input = getEl(selector);
+    input.addEventListener('input', createMask);
+    input.addEventListener('focus', createMask);
+}
+
+function cvcMask (selector) {
+  function createMask(e) {
+    let matrix = '___',
+        i = 0,
+        val = this.value.replace(/\D/g, '');
+
+        this.value = matrix.replace(/./g, function (a) {
+            if (/[_\d]/.test(a) && (i < val.length)) {
+              return (val.charAt(i++))
+            } else  if (i >= val.length){ return '' }
+            else {return a}
+        })
+        setCursorPosition(this.value.length, this);
+    }
+    let input = getEl(selector);
+    input.addEventListener('input', createMask);
+    input.addEventListener('focus', createMask);
+}
+
 function welcome() {
   let payByCardBlock = getEl('[data-related-block="payByCard"]');
   let startBtn = getEl('#start button');
   let cardManuallyBlock = getEl('[data-related-block="cardManually"]')
-
+  
   getEl('#payByPay').addEventListener('click', function() {
     payByCardBlock.hidden = true;
     startBtn.disabled = false;
@@ -1115,21 +1245,42 @@ function welcome() {
   getEl('#payByCard').addEventListener('click', function() {
     payByCardBlock.hidden = false;
     startBtn.disabled = true;
+    startBtn.addEventListener('click', function(){
+      let requiredFields = ['#cardNumber', '#expMonth', '#cvc'];
+      let validInfo = myApp.validation.form(requiredFields);
+      if (validInfo.status == OK_STATUS) {
+        const formData = new FormData(getEl('form[data-related-block="cardManually"]'));
+        let obj = {}
+
+        formData.forEach(function (value, key) {
+          obj[key] = value;
+        });
+
+        let json = JSON.stringify(obj);
+        
+        getEl('.welcome-container').style.display = 'none';
+        getEl('#formContainer').hidden = false;
+      }
+    })
   });
 
   getEl('#cardManually').addEventListener('click', function() {
     cardManuallyBlock.toggleAttribute('hidden');
+    startBtn.disabled = false;
   })
+
+  cardMask('#cardNumber');
+  cvcMask("#cvc");
 }
 
 window.onload = () => {
   myApp.baseGet(API_METHOD.getdetails, "")
-        .then(responce => {
-        paymentData = responce;
-          detectLanguage(navigator.languages[0].slice(0,2));
-          fillCardForm();
-          signInSuccess();
-          initSubscription();
-          welcome();
-        });
+    .then(responce => {
+    paymentData = responce;
+      detectLanguage(navigator.languages[0].slice(0,2));
+      fillCardForm();
+      signInSuccess();
+      initSubscription();
+      welcome();
+    });
 }
