@@ -1,7 +1,6 @@
 'use strict';
 
 const defaultLanguage = "en";
-// const BASE_URI = "https://localhost:5001";
 const BASE_URI = "http://localhost:5000";
 const API_PREFIX = "/api";
 const API_METHOD = {
@@ -50,13 +49,13 @@ const errorClasses = {
 }
 
 const errorSpans = {
-    verifyCode: document.getElementById("verify-code-error-span"),
-    authorizedCustomer: document.getElementById("authorized-customer-error-span"),
-    cards: document.getElementById("cards-error-span"),
-    customer: document.getElementById("customer-error-span"),
-    login: document.getElementById("login-error-span"),
-    password: document.getElementById("password-error-span"),
-    email: document.getElementById("email-error-span"),
+    verifyCode: getById("verify-code-error-span"),
+    authorizedCustomer: getById("authorized-customer-error-span"),
+    cards: getById("cards-error-span"),
+    customer: getById("customer-error-span"),
+    login: getById("login-error-span"),
+    password: getById("password-error-span"),
+    email: getById("email-error-span"),
 };
 
 let formState = {
@@ -183,7 +182,6 @@ const messages = {
         }
     },
 }
-
 const dictionary = {
     ru: {
         language: "Язык:",
@@ -191,19 +189,23 @@ const dictionary = {
         ru: "РУ",
         sp: "ИС",
         mainlang: "РУ",
+        welcometoconteon: "Welcome to Conteon",
+        proceedpayments: "Proceed payments with safe and simple way",
+        paybypay: "Pay by Apple Pay/Google Pay",
+        startbutton: "Let’s start",
         facilitytitle: "Данные Мерчанта",
-        initiatordetails: "сведения об инициаторе:",
-        amount: "количество:",
-        trantvc: "tran tvc:",
+        initiatordetails: "Сведения об инициаторе:",
+        amount: "Количество:",
+        trantvc: "TRAN TVC:",
         paybycard: "Оплатить картой",
         paybycrypto: "Другой метод оплаты",
         cvvorholder: "CVV или имя держателя:",
         scancardbyemitter: "Сканировать карту",
-        login: "логин",
-        password: "пароль",
+        login: "Логин",
+        password: "Пароль",
         rememberme: "Запомни меня",
-        customer: "клиент:",
-        card: "карта:",
+        customer: "Клиент:",
+        card: "Карта:",
         byconfirmyou: "Подтверждая, вы принимаете условия использования",
         scancardbutton: "Сканировать",
         confirmbutton: "Подтвердить",
@@ -217,7 +219,7 @@ const dictionary = {
         register: "Зарегистрироваться ",
         meinconteon: "в Conteon",
         sendaninvitation: "Мы отправляем пригласительное письмо со ссылкой на почту выше",
-        emaillabel: "электронная почта:",
+        emaillabel: "Электронная почта:",
         completebutton: "Завершить",
         badthing: "Что-то пошло не так",
         closebutton: "Закрыть",
@@ -225,15 +227,15 @@ const dictionary = {
         updatecard: "Обновить карту",
         choosewallet: "Выбрать кошелек",
         /////FACILITY DATA /////////////////////////
-        initiatorId: "идентификатор",
-        initiator: 'инициатор',
-        merchant: 'мерчант',
+        initiatorId: "Идентификатор",
+        initiator: 'Инициатор',
+        merchant: 'Мерчант',
         merchantId: 'id мерчанта',
-        email: "имейл",
-        phone: "телефон",
-        account: "счет",
-        address: 'адрес',
-        iban: 'iban код',
+        email: "Имейл",
+        phone: "Телефон",
+        account: "Счет",
+        address: 'Адрес',
+        iban: 'IBAN код',
         /////FACILITY DATA ///////////////////////// 
     },
     en: {
@@ -242,19 +244,23 @@ const dictionary = {
         en: "EN",
         ru: "RU",
         sp: "ES",
+        welcometoconteon: "Welcome to Conteon",
+        proceedpayments: "Proceed payments with safe and simple way",
+        paybypay: "Pay by Apple Pay/Google Pay",
+        startbutton: "Let’s start",
         facilitytitle: "Merchant Data",
-        initiatordetails: "initiator details:",
-        amount: "amount:",
-        trantvc: "tran tvc:",
+        initiatordetails: "Initiator details:",
+        amount: "Amount:",
+        trantvc: "TRAN TVC:",
         paybycard: "Pay by Card",
         paybycrypto: "Another Method",
         cvvorholder: "CVV or Holder Name:",
         scancardbyemitter: "Scan Card by Emitter",
-        login: "login",
-        password: "password",
+        login: "Login",
+        password: "Password",
         rememberme: "Remember me",
-        customer: "customer:",
-        card: "card:",
+        customer: "Customer:",
+        card: "Card:",
         byconfirmyou: "By Confirm you are accept service conditions",
         scancardbutton: "Scan Card",
         confirmbutton: "Confirm",
@@ -266,9 +272,9 @@ const dictionary = {
         cardtoken: "Card Token",
         securelystoring: "We securely storing card token in your browser storage",
         register: "Register ",
-        meinconteon: "me in Conteon",
+        meinconteon: "Me in Conteon",
         sendaninvitation: "We send an invitation mail with the link on mail above",
-        emaillabel: "email:",
+        emaillabel: "Email:",
         completebutton: "Complete",
         badthing: "Bad thing happens",
         closebutton: "Close",
@@ -276,15 +282,15 @@ const dictionary = {
         updatecard: "Update Card",
         choosewallet: "Choose Wallet",
         /////FACILITY DATA /////////////////////////
-        initiatorId: "initiatorId",
-        initiator: 'initiator',
-        merchant: 'merchant',
-        merchantId: 'merchantId',
-        email: "email",
-        phone: "phone",
-        account: "account",
-        address: 'address',
-        iban: 'iban',
+        initiatorId: "InitiatorId",
+        initiator: 'Initiator',
+        merchant: 'Merchant',
+        merchantId: 'MerchantId',
+        email: "Email",
+        phone: "Phone",
+        account: "Account",
+        address: 'Address',
+        iban: 'IBAN',
         /////FACILITY DATA /////////////////////////
     },
     sp: {
@@ -293,19 +299,23 @@ const dictionary = {
         en: "IN",
         ru: "RU",
         sp: "ES",
+        welcometoconteon: "Welcome to Conteon",
+        proceedpayments: "Proceed payments with safe and simple way",
+        paybypay: "Pay by Apple Pay/Google Pay",
+        startbutton: "Let’s start",
         facilitytitle: "Datos del Comerciante",
-        initiatordetails: "detalles del iniciador:",
+        initiatordetails: "Detalles del iniciador:",
         amount: "Monto:",
-        trantvc: "tran tvc:",
+        trantvc: "TRAN TVC:",
         paybycard: "Pagar con tarjeta",
         paybycrypto: "Otro método",
         cvvorholder: "CVV o nombre del titular:",
         scancardbyemitter: "Escanear tarjeta por emisor",
-        login: "acceso",
-        password: "contraseña",
+        login: "Acceso",
+        password: "Contraseña",
         rememberme: "Recuérdame",
-        customer: "cliente:",
-        card: "tarjeta:",
+        customer: "Cliente:",
+        card: "Tarjeta:",
         byconfirmyou: "Confirma que estás aceptado condiciones de servicio",
         scancardbutton: "Escanear tarjeta",
         confirmbutton: "Confirmar",
@@ -317,9 +327,9 @@ const dictionary = {
         cardtoken: "Tarjeta Token",
         securelystoring: "Almacenamos de forma segura el token de la tarjeta en el almacenamiento de su navegador",
         register: "Registrarse ",
-        meinconteon: "yo en Conteon",
+        meinconteon: "Yo en Conteon",
         sendaninvitation: "Enviamos un correo de invitación con el enlace en el correo de arriba",
-        emaillabel: "correo electrónico:",
+        emaillabel: "Correo electrónico:",
         completebutton: "Completo",
         badthing: "Sucede algo malo",
         closebutton: "Cerrar",
@@ -327,22 +337,239 @@ const dictionary = {
         updatecard: "Tarjeta de actualización",
         choosewallet: "Elija billetera",
         /////FACILITY DATA /////////////////////////
-        initiatorId: "initiatorId",
-        initiator: 'iniciador',
-        merchant: 'comerciante',
-        merchantId: 'comercianteId',
-        email: "correo electrónico",
-        phone: "teléfono",
-        account: "cuenta",
-        address: 'dirección',
-        iban: 'iban',
+        initiatorId: "InitiatorId",
+        initiator: 'Iniciador',
+        merchant: 'Comerciante',
+        merchantId: 'ComercianteId',
+        email: "Correo electrónico",
+        phone: "Teléfono",
+        account: "Cuenta",
+        address: 'Dirección',
+        iban: 'IBAN',
         /////FACILITY DATA /////////////////////////
     }
 };
 
+let myApp = {}
+myApp.validation = {
+  setErrorUI : function ({status, code, message, fieldSelector}) {
+    const input = getFormEl(fieldSelector);
+
+    input.classList.add(errorClasses.input);
+    addSpanErrorStyles(fieldSelector, message);
+    setFormState(false, fieldSelector);
+  },
+   removeErrorUI: function ({status, code, message, fieldSelector}) {
+    const input = getFormEl(fieldSelector);
+    input.classList.remove(errorClasses.input);
+    removeSpanErrorStyles(fieldSelector, message);
+    setFormState(true, fieldSelector);
+  },
+  form: function (fields) {
+    let allValidInfo = {
+      status: 'S_OK',
+      validFieldsInfo: []
+    };
+    fields.forEach(field => {
+      let el = getFormEl(field);
+      let validation = this[field](el.value);
+
+      if (validation.status == 'S_FAIL') {
+        this.setErrorUI(validation);
+        allValidInfo.status = 'S_FAIL';
+      } else {
+        this.removeErrorUI(validation)
+      }
+
+      allValidInfo.validFieldsInfo.push(validation);
+    })
+    return allValidInfo
+  },
+  email: function(val) {
+    if (val.length < 4) {
+      return {
+        status : 'S_FAIL',
+        code : 3,
+        message : messages[formState.language].email.less,
+        fieldSelector : 'email'
+      }
+    }
+    if (val.length > 100) {
+      return {
+          status : 'S_FAIL',
+          code : 3,
+          message : messages[formState.language].email.more,
+          fieldSelector : 'email'
+        }
+    }
+    if (emailPattern.test(val)) {
+      return {
+          status : 'S_OK',
+          code : '',
+          message : '',
+          fieldSelector : 'email'
+        }
+    }
+    if (!val.length) {
+      return {
+          status : 'S_FAIL',
+          code : 3,
+          message : messages[formState.language].email.required,
+          fieldSelector : 'email'
+        }
+    }
+    return {
+        status : 'S_FAIL',
+        code : 3,
+        message : messages[formState.language].login.incorrect,
+        fieldSelector : 'email'
+      }
+  },
+  login: function(val) {
+    if (!val.length) {
+      return {
+          status : 'S_FAIL',
+          code : 3,
+          message : messages[formState.language].login.required,
+          fieldSelector : 'login'
+        }
+    }
+    if (val.length < 3) {
+      return {
+          status : 'S_FAIL',
+          code : 3,
+          message : messages[formState.language].login.less,
+          fieldSelector : 'login'
+        }
+    }
+    return {
+        status : 'S_OK',
+        code : '',
+        message : '',
+        fieldSelector : 'login'
+      }
+  },
+  password: function(val) {
+    if (!val.length) {
+      return {
+          status : 'S_FAIL',
+          code : 3,
+          message : messages[formState.language].password.required,
+          fieldSelector : 'password'
+        }
+    }
+    if (val.length < 3) {
+      return {
+          status : 'S_FAIL',
+          code : 3,
+          message : messages[formState.language].password.less,
+          fieldSelector : 'password'
+        }
+    }
+    return {
+        status : 'S_OK',
+        code : '',
+        message : '',
+        fieldSelector : 'password'
+      };
+  },
+  customer: function(val) {
+    if (!cvvRegexp.test(val) && !holderNameRegexp.test(val)) {
+      return {
+          status : 'S_FAIL',
+          code : 3,
+          message : messages[formState.language].customer.required,
+          fieldSelector : 'customer'
+        }
+    }
+    return {
+        status : 'S_OK',
+        code : '',
+        message : '',
+        fieldSelector : 'customer'
+      }
+  },
+  verifyCode: function(val) {
+    if (!verifyCodeRegexp.test(val)) {
+      return {
+          status : 'S_FAIL',
+          code : 3,
+          message : messages[formState.language].verifyCode.required,
+          fieldSelector : 'verifyCode'
+        }
+    }
+    return {
+        status : 'S_OK',
+        code : '',
+        message : '',
+        fieldSelector : 'verifyCode'
+      }
+  },
+  authorizedCustomer: function(val) {
+    if (!holderNameRegexp.test(val)) {
+      return {
+          status : 'S_FAIL',
+          code : 3,
+          message : messages[formState.language].authorizedCustomer.required,
+          fieldSelector : 'authorizedCustomer'
+        }
+    }
+    return {
+        status : 'S_OK',
+        code : '',
+        message : '',
+        fieldSelector : 'authorizedCustomer'
+      }
+  },
+  cards: function(val) {
+    if (!val.length) {
+      return {
+          status : 'S_FAIL',
+          code : 3,
+          message : messages[formState.language].cards.required,
+          fieldSelector : 'cards'
+        }
+    }
+    return {
+        status : 'S_OK',
+        code : '',
+        message : '',
+        fieldSelector : 'cards'
+      }
+  }
+};
+
+myApp.basePost = function (url, content, isText = false) {
+  const contentType = typeof content === 'string' ? 'plain/text' : 'application/json';
+  const body = typeof content === 'string' ? content : JSON.stringify(content);
+
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `${BASE_URI}${API_PREFIX}${url}`);
+    xhr.setRequestHeader('Content-Type', contentType);
+    xhr.onload = () => resolve(isText ? xhr.responseText : JSON.parse(xhr.responseText));
+    xhr.onerror = () => reject(xhr.statusText);
+    xhr.send(body);
+  });
+}
+
+myApp.baseGet = function (url, content = '', isText = false) {
+  const params = typeof content === 'string' ? content : JSON.stringify(content);
+  const contentType = typeof content === 'string' ? 'plain/text' : 'application/json';
+
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `${BASE_URI}${API_PREFIX}${url}/${params}`);
+    xhr.setRequestHeader('Content-Type', contentType);
+    xhr.onload = () => resolve(isText ? xhr.responseText : JSON.parse(xhr.responseText));
+    xhr.onerror = () => reject(xhr.statusText);
+    xhr.send();
+  });
+}
+
 function render(dictionary, lang) {
-    for (const container of wordContainers) {
-		if(container.dataset.langTag ==='scancardbyemitter'){
+  for (const container of wordContainers) {
+		if (container.dataset.langTag ==='scancardbyemitter') {
 			if( _cardToken == null)
 				container.innerText = dictionary[container.dataset.langTag];
 			continue;
@@ -350,13 +577,14 @@ function render(dictionary, lang) {
 		container.innerText = dictionary[container.dataset.langTag];
     };
     setFormState(lang, "language");
-	agreementHasLoaded = false;
+	  agreementHasLoaded = false;
     renderFacilityData();
 };
 
+// Language
 function translate(lang) {
-    if (formState.language === lang) return;
-    else render(dictionary[lang], lang);
+  console.log(lang);
+    formState.language !== lang && render(dictionary[lang], lang);
 }
 
 function switcher(event) {
@@ -365,293 +593,58 @@ function switcher(event) {
     toggleLangList(event);
 };
 
-
-  /**
-   * UI
-   */
 for (const lang of langContainers) {
     lang.addEventListener('click', switcher);
 }
-let myApp = {}
-myApp.validation = {
-  email: function(val) {
-    if (val.length < 4) {
-      return {
-        status : 'S_FAIL',
-        info : {
-            code : 3,
-            message : messages[formState.language].email.less,
-            fieldSelector : 'email'
-        }
-      }
-    }
-    if (val.length > 100) {
-      return {
-        status : 'S_FAIL',
-        info : {
-            code : 3,
-            message : messages[formState.language].email.more,
-            fieldSelector : 'email'
-        }
-      }
-    }
-    if (emailPattern.test(val)) {
-      return {
-        status : 'S_OK',
-        info : {
-            code : '',
-            message : '',
-            fieldSelector : 'email'
-        }
-      }
-    }
-    if (!val.length) {
-      return {
-        status : 'S_FAIL',
-        info : {
-            code : 3,
-            message : messages[formState.language].email.required,
-            fieldSelector : 'email'
-        }
-      }
-    }
-    return {
-      status : 'S_FAIL',
-      info : {
-          code : 3,
-          message : messages[formState.language].login.incorrect,
-          fieldSelector : 'email'
-      }
-    }
-  },
-  login: function(val) {
-    if (!val.length) {
-      return {
-        status : 'S_FAIL',
-        info : {
-            code : 3,
-            message : messages[formState.language].login.required,
-            fieldSelector : 'login'
-        }
-      }
-    }
-    if (val.length < 3) {
-      return {
-        status : 'S_FAIL',
-        info : {
-            code : 3,
-            message : messages[formState.language].login.less,
-            fieldSelector : 'login'
-        }
-      }
-    }
-    return {
-      status : 'S_OK',
-      info : {
-          code : '',
-          message : '',
-          fieldSelector : 'login'
-      }
-    }
-  },
-  password: function(val) {
-    if (!val.length) {
-      return {
-        status : 'S_FAIL',
-        info : {
-            code : 3,
-            message : messages[formState.language].password.required,
-            fieldSelector : 'password'
-        }
-      }
-    }
-    if (val.length < 3) {
-      return {
-        status : 'S_FAIL',
-        info : {
-            code : 3,
-            message : messages[formState.language].password.less,
-            fieldSelector : 'password'
-        }
-      }
-    }
-    return {
-      status : 'S_OK',
-      info : {
-          code : '',
-          message : '',
-          fieldSelector : 'password'
-      }
-    };
-  },
-  customer: function(val) {
-    if (!cvvRegexp.test(val) && !holderNameRegexp.test(val)) {
-      return {
-        status : 'S_FAIL',
-        info : {
-            code : 3,
-            message : messages[formState.language].customer.required,
-            fieldSelector : 'customer'
-        }
-      }
-    }
-    return {
-      status : 'S_OK',
-      info : {
-          code : '',
-          message : '',
-          fieldSelector : 'customer'
-      }
-    }
-  },
-  verify_code: function(val) {
-    if (!verifyCodeRegexp.test(val)) {
-      return {
-        status : 'S_FAIL',
-        info : {
-            code : 3,
-            message : messages[formState.language].verifyCode.required,
-            fieldSelector : 'verify_code'
-        }
-      }
-    }
-    return {
-      status : 'S_OK',
-      info : {
-          code : '',
-          message : '',
-          fieldSelector : 'verify_code'
-      }
-    }
-  },
-  authorized_customer: function(val) {
-    if (!holderNameRegexp.test(val)) {
-      return {
-        status : 'S_FAIL',
-        info : {
-            code : 3,
-            message : messages[formState.language].authorizedCustomer.required,
-            fieldSelector : 'authorized_customer'
-        }
-      }
-    }
-    return {
-      status : 'S_OK',
-      info : {
-          code : '',
-          message : '',
-          fieldSelector : 'authorized_customer'
-      }
-    }
-  },
-  cards: function(val) {
-    if (!val.length) {
-      return {
-        status : 'S_FAIL',
-        info : {
-            code : 3,
-            message : messages[formState.language].cards.required,
-            fieldSelector : 'cards'
-        }
-      }
-    }
-    return {
-      status : 'S_OK',
-      info : {
-          code : '',
-          message : '',
-          fieldSelector : 'cards'
-      }
-    }
+
+function detectLanguage(lang) {
+  const stLang = localStorage.getItem("language");
+  if (stLang !== null) {
+      translate(stLang);
+  } else {
+    const index = ourLanguages.findIndex(e => e === lang);
+    console.log(index);
+    index === -1 ? translate(defaultLanguage) : translate(lang);
   }
-};
-myApp.baseGet = function (url, content = '', isText = false) {
+}
 
-  const params = typeof content === 'string' ? content : JSON.stringify(content);
-  const contentType = typeof content === 'string' ? 'plain/text' : 'application/json';
-
+// Create Promise with validated field and data
+function dataSourcePromise (requiredFields, data, postParam) {
+  //TODO data  is a temp argument. Real data will be received due basePost(postParam)
   return new Promise((resolve, reject) => {
-    setTimeout(()=> {
-      const xhr = new XMLHttpRequest();
-      xhr.open("GET", `${BASE_URI}${API_PREFIX}${url}/${params}`);
-      xhr.setRequestHeader('Content-Type', contentType);
-      xhr.onload = () => resolve(isText ? xhr.responseText : JSON.parse(xhr.responseText));
-      xhr.onerror = () => reject(xhr.statusText);
-      xhr.send();
-    }, 0)
-    });
-}
-
-  //#region Base methods
-  // request
-function basePost(url, content, isText = false) {
-    const contentType = typeof content === 'string' ? 'plain/text' : 'application/json';
-    const body = typeof content === 'string' ? content : JSON.stringify(content);
-
-    return new Promise((resolve, reject) => {
-      setTimeout(()=> {
-          const xhr = new XMLHttpRequest();
-          xhr.open("POST", `${BASE_URI}${API_PREFIX}${url}`);
-          xhr.setRequestHeader('Content-Type', contentType);
-          xhr.onload = () => resolve(isText ? xhr.responseText : JSON.parse(xhr.responseText));
-          xhr.onerror = () => reject(xhr.statusText);
-          xhr.send(body);
-        }, 0)
-      });
-}
-
-function baseGet(url, content = '', isText = false) {
-
-    const params = typeof content === 'string' ? content : JSON.stringify(content);
-    const contentType = typeof content === 'string' ? 'plain/text' : 'application/json';
-
-    return new Promise((resolve, reject) => {
-      setTimeout(()=> {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", `${BASE_URI}${API_PREFIX}${url}/${params}`);
-        xhr.setRequestHeader('Content-Type', contentType);
-        xhr.onload = () => resolve(isText ? xhr.responseText : JSON.parse(xhr.responseText));
-        xhr.onerror = () => reject(xhr.statusText);
-        xhr.send();
-      }, 0)
-        
-      });
-}
-
-//scanCard Validation
-function scanCardFieldSource () {
-  return new Promise((resolve, reject) => {
-    
-    const customerInput = getFormEl('customer');
-    const customerInputValidate = myApp.validation.customer(customerInput.value);
-  
-    if (customerInputValidate.status == 'S_OK') {
+    let validInfo = myApp.validation.form(requiredFields);
+    if (validInfo.status == 'S_OK') {
       resolve({
-        validInfo: {
-          status: 'S_OK',
-          validFieldsInfo: [customerInputValidate]
-        },
-          data: customerInput.value
-        }
-      );
+        validInfo: validInfo,
+        data: data
+      });
     } else {
       reject({
-        validInfo: {
-          status: 'S_FAIL',
-          validFieldsInfo: [customerInputValidate]
-        }
+        validInfo: validInfo,
+        data: data
       });
     }
   })
 }
+
 //scanCard Data
 function scanCardPromise (datasource) {
   return new Promise((resolve, reject) => {
     datasource.then(res => {
+      console.log(res);
       if (res.validInfo.status == 'S_FAIL') {
         reject(res)
       } else {
-          if (res == 'cvv') {
+          if (isNaN(+res.data)) {
+            resolve({
+              validInfo: res.validInfo,
+              data: {
+                customer: res.data,
+                tokenName: "34*21***34",
+                tokenValue: "MzQqMjEqKiozNC5ZQU5BIFNUUg=="
+              }
+            })
+          } else {
             resolve({
               validInfo: res.validInfo,
               data: {
@@ -660,15 +653,7 @@ function scanCardPromise (datasource) {
                 tokenValue: "MzQqMjEqKiozNC4xMTE="
               }
             })
-          } else {
-            resolve({
-              validInfo: res.validInfo,
-              data: {
-                customer: "YANA STR",
-                tokenName: "34*21***34",
-                tokenValue: "MzQqMjEqKiozNC5ZQU5BIFNUUg=="
-              }
-            })
+            
           }
       }
     }).catch(err => reject(err))
@@ -678,26 +663,20 @@ function scanCardPromise (datasource) {
 function scanCard() {
   const customerInput = getFormEl('customer');
   const scanButton = getFormEl('scanCard');
-  const cardNumber = document.getElementById('cardNumber');
+  const cardNumber = getById('cardNumber');
+  const requiredFields = ['customer'];
+  const data= customerInput.value;
   
   scanButton.innerText = dictionary[formState.language].scanning;
   scanButton.toggleAttribute('disabled');
-  customerInput.classList.remove(errorClasses.input);
-  removeSpanErrorStyles(customerInput.id, "")
 
-  scanCardPromise(scanCardFieldSource())
+  scanCardPromise(dataSourcePromise(requiredFields, data))
     .then(({validInfo, data}) => {
+      console.log(data);
       customerInput.value = data.customer;
       cardNumber.innerText = data.tokenName;
-      validInfo.validFieldsInfo.forEach(item => {
-        removeErrorUI(item.info);
-      })
     })
-    .catch(err => {
-      err.validInfo.validFieldsInfo.forEach(item => {
-        setErrorUI(item.info);
-      })
-    })
+    .catch(err => console.log(err))
     .finally(()=>{
       setFormState(true, 'customer');
       scanButton.toggleAttribute('disabled');
@@ -705,421 +684,333 @@ function scanCard() {
     });
 }
 
-
-//#endregion
-
-function detectLanguage(lang) {
-    const stLang = localStorage.getItem("language");
-    if (stLang !== null) {
-        translate(stLang);
-    } else {
-      const index = ourLanguages.findIndex(e => e === lang);
-      index === -1 ? translate(defaultLanguage) : translate(lang);
-    }
-}
-
-  // init
-window.onload = () => {
-  detectLanguage(navigator.languages[0].slice(0,2));
-  fillCardForm();
-  signInSuccess();
-  initSubscription();
-}
-
-  // subscription
+// subscription
 function initSubscription() {
-    getFormEl('byCard').addEventListener('change', () => {
-      togglePaymentMethod();
-      togglePaymentTypeForm();
-      disableSubmit();
+  getFormEl('byCard').addEventListener('change', () => {
+    togglePaymentMethod();
+    togglePaymentTypeForm();
+    disableSubmit();
+    hasCard && enableSubmit();
+  });
 
-      if (hasCard) {
-      enableSubmit();
-      }
-    });
+  getFormEl('byCrypto').addEventListener('change', () => {
+    togglePaymentMethod();
+    togglePaymentTypeForm();
+    disableSubmit();
+    authorizedUser && enableSubmit();
+  });
 
-    getFormEl('byCrypto').addEventListener('change', () => {
-      togglePaymentMethod();
-      togglePaymentTypeForm();
-      disableSubmit();
-
-      if (authorizedUser) {
-        enableSubmit();
-      }
-    });
-
-    getFormEl('scanCard').addEventListener('click', () => scanCard());
-    getFormEl('signIn').addEventListener('click', () => signIn());
-    getFormEl('submitButton').addEventListener('click', () => onFormSubmit());
-    document.getElementById('merchantHeader').addEventListener('click', () => toggleExpand());
-    document.getElementById('registerUser')
-        .addEventListener('change', () => document.getElementById('emailContainer').toggleAttribute('hidden'));
-    document.querySelectorAll('.checkbox')
-        .forEach(item => item.addEventListener('change', () => item.toggleAttribute('checked')));
+  getFormEl('scanCard').addEventListener('click', () => scanCard());
+  getFormEl('signIn').addEventListener('click', () => signIn());
+  getFormEl('submitButton').addEventListener('click', () => onFormSubmit());
+  getById('merchantHeader').addEventListener('click', () => toggleExpand());
+  getById('registerUser')
+      .addEventListener('change', () => getById('emailContainer').toggleAttribute('hidden'));
+  document.querySelectorAll('.checkbox')
+      .forEach(item => item.addEventListener('change', () => item.toggleAttribute('checked')));
   }
 
-  function togglePaymentMethod() {
-    getFormEl('byCard').toggleAttribute('checked');
-    getFormEl('byCrypto').toggleAttribute('checked');
+function togglePaymentMethod() {
+  getFormEl('byCard').toggleAttribute('checked');
+  getFormEl('byCrypto').toggleAttribute('checked');
+}
+
+function toggleExpand() {
+  getById('merchantHeader').classList.toggle('expand');
+}
+
+function toggleLangList(event) {
+  const langList = getById('lang-list');
+  event.stopPropagation();
+  if(!formState.langClass){
+      langList.classList.add("dsp-block");
+      setFormState(true, "langClass");
+  } else {
+    langList.classList.remove("dsp-block");
+    setFormState(false, "langClass");
   }
+}
 
-  function toggleExpand() {
-    document.getElementById('merchantHeader').classList.toggle('expand');
-  }
+function abortClickOnParent(event) {
+  event.stopPropagation();
+}
 
-    function toggleLangList(event) {
-        const langList = document.getElementById('lang-list');
-        event.stopPropagation();
-        if(!formState.langClass){
-            langList.classList.add("dsp-block");
-            setFormState(true, "langClass");
-            return;
-        }
-        if(formState.langClass)  {
-            langList.classList.remove("dsp-block");
-            setFormState(false, "langClass");
-            return;
-        } 
-    }
-   function abortClickOnParent(event) {
-       event.stopPropagation();
-   }
-
-  function setErrorUI ({code, message, fieldSelector}) {
-    const input = getFormEl(fieldSelector);
-    input.classList.add(errorClasses.input);
-    addSpanErrorStyles(fieldSelector, message);
-    setFormState(false, fieldSelector);
-  }
-  
-  function removeErrorUI ({code, message, fieldSelector}) {
-    const input = getFormEl(fieldSelector);
-    input.classList.remove(errorClasses.input);
-    removeSpanErrorStyles(fieldSelector, message);
-    setFormState(true, fieldSelector);
-  }
-
-  function fillCardForm(response) {
-    let data = response || localStorage.getItem(`ctr-${paymentData.facilityData.merchantId}-token`);
-
-    if (data) {
-      hasCard = true;
-    basePost(API_METHOD.unpackdata, {"value": data})
+function fillCardForm() {
+  let data = localStorage.getItem(`ctr-${paymentData.facilityData.merchantId}-token`);
+  if (data) {
+    hasCard = true;
+    myApp.basePost(API_METHOD.unpackdata, {"value": data})
       .then((payload) => {
-        console.log(payload);
         getFormEl('scanCard').innerText = dictionary[formState.language].updatecard;
-        document.getElementById('cardNumber').innerText = payload.tokenName;
+        getById('cardNumber').innerText = payload.tokenName;
         getFormEl('customer').value = payload.customer;
         getFormEl('cardToken').value = payload.tokenValue;
         enableSubmit();
         _cardToken = payload;
       });
-    }
   }
+}
 
-  function signInSource () {
-    return new Promise((resolve, reject) => {
-      
-      const loginInput = getFormEl('login');
-      const passwordInput = getFormEl('password');
-      const loginValidate = myApp.validation.login(loginInput.value);
-      const passwordValidate = myApp.validation.password(passwordInput.value);
-      if (loginValidate.status == 'S_OK' && passwordValidate.status == 'S_OK') {
-        resolve({
-          validInfo: {
-            status: 'S_OK',
-            validFieldsInfo: [loginValidate, passwordValidate]
-          },
-          data: {
-            login: getFormEl('login').value,
-            password: getFormEl('password').value,
-          }
-        }
-        );
+//signIn
+function signInPromise (datasource) {
+  return new Promise((resolve, reject) => {
+    datasource.then(res => {
+      if (res.validInfo.status == 'S_FAIL') {
+        reject(res)
       } else {
-        reject({
-          validInfo: {
-            status: 'S_FAIL',
-            validFieldsInfo: [loginValidate, passwordValidate]
-          }
-        });
+          let {login, password} = res.data;
+          if (login == 'demo' && password == 'demo') {
+          resolve({
+            validInfo: res.validInfo,
+            data: {
+              customer: "YURII CHUDINOV",
+              hash: "ZGVtby9kZW1v",
+              language: "en"
+            }
+          })
+        } else {reject(res)}
       }
-    })
-  }
-  function signInPromise (datasource) {
-    return new Promise((resolve, reject) => {
-      datasource.then(res => {
-        if (res.validInfo.status == 'S_FAIL') {
-          reject(res)
-        } else {
-            let {login, password} = res.data;
-            if (login == 'demo' && password == 'demo') {
-            resolve({
-              validInfo: res.validInfo,
-              data: {
-                customer: "YURII CHUDINOV",
-                hash: "ZGVtby9kZW1v",
-                language: "en"
-              }
-            })
-          } else {reject(res)}
-        }
-      }).catch(err => reject(err))
-    })
-  }
+    }).catch(err => reject(err))
+  })
+}
 
-  function signIn() {
-    signInPromise(signInSource())
-    .then(({validInfo, data}) => {
-      validInfo.validFieldsInfo.forEach(item => {
-        removeErrorUI(item.info);
+function signIn() {
+  const requiredFields = ['login', 'password'];
+  const data= {login: getFormEl('login').value,
+            password: getFormEl('password').value};
+
+  signInPromise(dataSourcePromise(requiredFields, data))
+  .then(({validInfo, data}) => {
+    loginToken = data;
+    signInSuccess(data);
+    setFormState("customer", data.customer);
+    enableSubmit();
+  }).catch(err => console.log(err))
+}
+
+//signInSuccess
+function signInSuccessPromise (response) {
+  return new Promise((resolve, reject) => {
+    if (getFormEl('rememberMe').checked && !localStorage.getItem('ctn-auth-data')) {
+      //TODO basePost(API_METHOD.packdata, response, true)
+        localStorage.setItem('ctn-auth-data', 'eyJjdXN0b21lciI6IllVUklJIENIVURJTk9WIiwiaGFzaCI6IlpHVnRieTlrWlcxdiIsImxhbmd1YWdlIjoiZW4ifQ');
+    }
+    if (response || localStorage.getItem('ctn-auth-data')) {
+      resolve({
+          customer: "YURII CHUDINOV",
+          methods: [
+            {
+              currency: "$",
+              tokenName: "34*21***34",
+              tokenValue: "JSYcB0fD5Brute1Br7q+P06gzyCxZOtz+4z0yhXtxaAByrzsembhhOOVKCJo+IELX2zKssy3f8E7qAu6zhoEAfBMQOT90sTovko8HDvICgML6WqpIxPTSUv6sNFaJrbIkCcyGw==",
+              type: "1"
+            },
+            {
+              currency: "$",
+              tokenName: "26*14***12",
+              tokenValue: "t5wNjafi84J6YoZyngiu5K9b3tx495kDIfONmJNzixSV7ktv3NwBQB9Rzul0PTNSd9IZNUlVosADCmy0VFvuBtZx3a+8PwjSWZ28JyivjuO/OyDBWlbKQEuLa9FwTevEY8cSAg==",
+              type: "1"
+            },
+            {
+              currency: "$",
+              tokenName: "10*00***03",
+              tokenValue: "YIOVN8lG3KuYe5hTe4j0GTosrICnnGMx1DZiC7H4w2CdjII8pej4FHoep8/yF1bnWNKKNxuSW8MfY2OS49D6oLg3tu8FuHNRM5gGiPWUPrzgerPfbYxFCjC+HEKFZTCpJAYXuw==",
+              type: "2"
+            }
+          ]
       })
-      loginToken = data;
-      signInSuccess(data);
-      setFormState("customer", data.customer);
-      enableSubmit();
+    }
+  })
+}
+function signInSuccess(response) {
+  signInSuccessPromise(response).then( res => {
+    authorizedUser = true;
+    toggleAuthForm();
+    fillAuthForm(res);
+  }).catch(err => console.log(err));
+}
+
+function fillAuthForm(data) {
+  getFormEl('authorizedCustomer').value = data.customer;
+  fillOptions(data.methods);
+}
+
+function fillOptions(data) {
+  const select = getFormEl('cards');
+  data.forEach(item => {
+    const option = document.createElement('option');
+    option.innerText = item.tokenName;
+    option.value = item.tokenValue;
+    select.appendChild(option);
+  });
+}
+
+// submit action
+function onFormSubmitPromise (datasource) {
+  return new Promise((resolve, reject) => {
+    datasource.then(res => {
+        resolve({validInfo: res.validInfo, data: res.data}) 
     }).catch(err => {
-      err.validInfo.validFieldsInfo.forEach(item => {
-        setErrorUI(item.info);
-      })
+      reject(err);
     })
+  })
+}
+
+function onFormSubmit() {
+  const dealData = buildDeal();
+  // TODO instead of hardcode 'payload' it should be url for basePost
+  let payload = {
+    "status": "S_OK",
+    "dealCode": "3434333100000002",
+    "dealDate": "2021-12-08T14:36:10.6874041Z",
+    "internalCode": 0
+  }
+  let requiredFields = getFormEl('byCard').checked
+      ? ['verifyCode', 'customer'] : ['verifyCode', 'authorizedCustomer', 'cards'];
+
+  if (getFormEl('byCard').checked && getFormEl('customer').value.toLowerCase() === 'cvv') {
+    requiredFields = requiredFields.filter(item => item !== 'customer');
   }
 
-
-  function signInSuccessPromise (response) {
-    return new Promise((resolve, reject) => {
-      if (getFormEl('rememberMe').checked && !localStorage.getItem('ctn-auth-data')) {
-        //TODO basePost(API_METHOD.packdata, response, true)
-          localStorage.setItem('ctn-auth-data', 'eyJjdXN0b21lciI6IllVUklJIENIVURJTk9WIiwiaGFzaCI6IlpHVnRieTlrWlcxdiIsImxhbmd1YWdlIjoiZW4ifQ');
-      }
-      if (response || localStorage.getItem('ctn-auth-data')) {
-        resolve({
-            customer: "YURII CHUDINOV",
-            methods: [
-              {
-                currency: "$",
-                tokenName: "34*21***34",
-                tokenValue: "JSYcB0fD5Brute1Br7q+P06gzyCxZOtz+4z0yhXtxaAByrzsembhhOOVKCJo+IELX2zKssy3f8E7qAu6zhoEAfBMQOT90sTovko8HDvICgML6WqpIxPTSUv6sNFaJrbIkCcyGw==",
-                type: "1"
-              },
-              {
-                currency: "$",
-                tokenName: "26*14***12",
-                tokenValue: "t5wNjafi84J6YoZyngiu5K9b3tx495kDIfONmJNzixSV7ktv3NwBQB9Rzul0PTNSd9IZNUlVosADCmy0VFvuBtZx3a+8PwjSWZ28JyivjuO/OyDBWlbKQEuLa9FwTevEY8cSAg==",
-                type: "1"
-              },
-              {
-                currency: "$",
-                tokenName: "10*00***03",
-                tokenValue: "YIOVN8lG3KuYe5hTe4j0GTosrICnnGMx1DZiC7H4w2CdjII8pej4FHoep8/yF1bnWNKKNxuSW8MfY2OS49D6oLg3tu8FuHNRM5gGiPWUPrzgerPfbYxFCjC+HEKFZTCpJAYXuw==",
-                type: "2"
-              }
-            ]
-        })
-      }
+  onFormSubmitPromise(dataSourcePromise(requiredFields, payload, 'API_METHOD.accept, dealData(), true'))
+    .then(res => {
+      initSuccessPage();
     })
-  }
-
-  function signInSuccess(response) {
-    signInSuccessPromise(response).then( res => {
-      authorizedUser = true;
-      toggleAuthForm();
-      fillAuthForm(res);
-    }).catch(err => console.log(err));
-  }
-
-  function fillAuthForm(data) {
-    getFormEl('authorizedCustomer').value = data.customer;
-    fillOptions(data.methods);
-  }
-
-  function fillOptions(data) {
-    const select = getFormEl('cards');
-    data.forEach(item => {
-      const option = document.createElement('option');
-      option.innerText = item.tokenName;
-      option.value = item.tokenValue;
-      select.appendChild(option);
+    .catch(res => {
+        errorPayload.Code = res.data.internalCode;
+        errorPayload.Text = res.data.status;
+        initErrorPage();
+    })
+    .finally( () => {
+      getById('formContainer').setAttribute('hidden', 'true');           
     });
-  }
+}
 
-  // submit action
-  function onFormSubmit() {
-    const dealData = buildDeal();
-    const response = false;
-    let requiredFields = getFormEl('byCard').checked
-        ? ['verifyCode', 'customer'] : ['verifyCode', 'authorizedCustomer', 'cards'];
+function initSuccessPage() {
+  getById('formContainer').setAttribute('hidden', 'true');
+  getById('successContainer').removeAttribute('hidden');
+  getById('completePayment').addEventListener('click', () => onCompletePayment());
+}
 
-    if (getFormEl('byCard').checked && getFormEl('customer').value.toLowerCase() === 'cvv') {
-      requiredFields = requiredFields.filter(item => item !== 'customer');
-    }
+function initErrorPage() {
+  getById('formContainer').setAttribute('hidden', 'true');
+  getById('errorMessage').innerText = `Error: ${errorPayload.Text}`;
+  getById('errorContainer').removeAttribute('hidden');
+}
 
-    if (!myApp.validation.form(requiredFields)) {
-      return;
-    }
-
-	basePost(API_METHOD.accept, dealData, true).then(payload => {
-
-		document.getElementById('formContainer').setAttribute('hidden', 'true');
-
-		if (payload != null || payload.status === 'S_OK') {                    
-			initSuccessPage();
-		} else {
-			payload = JSON.parse(payload);
-			errorPayload.Code = payload.internalCode;
-			errorPayload.Text = payload.status;
-			initErrorPage();
-		}
-	});
-  }
-
-  function initSuccessPage() {
-    document.getElementById('formContainer').setAttribute('hidden', 'true');
-    document.getElementById('successContainer').removeAttribute('hidden');
-    document.getElementById('completePayment').addEventListener('click', () => onCompletePayment());
-  }
-
-  function initErrorPage() {
-    document.getElementById('formContainer').setAttribute('hidden', 'true');
-    document.getElementById('errorMessage').innerText = `Error: ${errorPayload.Text}`;
-    document.getElementById('errorContainer').removeAttribute('hidden');
-  }
-
-  function onCompletePayment() {
-    const emailInput = document.getElementById('email');
-
-    if (document.getElementById('rememberCard').checked ) {
-      rememberCardToken();
-    }
-
-    if (document.getElementById('registerUser').checked) {
-      const emailError = validateFields("email", emailInput.value);
-      if (emailError !== "") {
-        emailInput.classList.add(errorClasses.input);
-        addSpanErrorStyles("email", emailError);
-        return;
-      } else {
-        emailInput.classList.remove(errorClasses.input);
-        removeSpanErrorStyles("email", "")
-      }
-    }
-
-    exportFile(API_METHOD.export)
-        .then(payload => {
-          const data = {
-            registerMe: document.getElementById('registerUser').checked,
-            email: emailInput.value || null
-          };
-          downloadFile(payload);
-
-          basePost(API_METHOD.completeSession, data)
-              .then(response => {
-                window.location = "http://ledger.conteon.io";
-              })
-        });
-        localStorage.setItem("language", formState.language)
-  }
-
-  function downloadFile(blob, fileName = 'Payment') {
-    const link = document.createElement('a');
-    // create a blobURI pointing to our Blob
-    link.href = URL.createObjectURL(blob);
-    link.setAttribute('hidden', 'true');
-    link.download = fileName;
-    // some browser needs the anchor to be in the doc
-    document.body.append(link);
-    link.click();
-    link.remove();
-    // in case the Blob uses a lot of memory
-    setTimeout(() => URL.revokeObjectURL(link.href), 5000);
+function onCompletePayment() {
+  const emailInput = getById('email');
+  const data = {
+    registerMe: getById('registerUser').checked,
+    email: emailInput.value || null
   };
 
-  function rememberCardToken() {
-    const keyName = `ctr-${paymentData.facilityData.merchantId}-token`;
-    if (getFormEl('byCrypto').checked) {
-      const cards =  getFormEl('cards');
-      const option = cards.options[cards.options.selectedIndex];  
-      const data = {
-        tokenName: option.textContent,
-        tokenValue: option.value,
-        customer: getFormEl('authorizedCustomer').value
-      };
-      basePost(API_METHOD.packdata, data, true).then(payload => {
-        localStorage.setItem(keyName, payload);
-      });
-      return;
+  getById('rememberCard').checked && rememberCardToken();
+  getById('registerUser').checked && myApp.validation.form(["email"]);
+  localStorage.setItem("language", formState.language);
+
+  exportFile(API_METHOD.export)
+      .then(payload => {
+        downloadFile(payload);
+      })
+
+  myApp.basePost(API_METHOD.completeSession, data)
+  .finally(() => {
+    window.location = "http://ledger.conteon.io";
+  })
+}
+
+function downloadFile(blob, fileName = 'Payment') {
+  const link = document.createElement('a');
+  // create a blobURI pointing to our Blob
+  link.href = URL.createObjectURL(blob);
+  link.setAttribute('hidden', 'true');
+  link.download = fileName;
+  // some browser needs the anchor to be in the doc
+  document.body.append(link);
+  link.click();
+  link.remove();
+  // in case the Blob uses a lot of memory
+  setTimeout(() => URL.revokeObjectURL(link.href), 5000);
+};
+
+function rememberCardToken() {
+  const keyName = `ctr-${paymentData.facilityData.merchantId}-token`;
+  if (getFormEl('byCrypto').checked) {
+    const cards =  getFormEl('cards');
+    const option = cards.options[cards.options.selectedIndex];  
+    const data = {
+      tokenName: option.textContent,
+      tokenValue: option.value,
+      customer: getFormEl('authorizedCustomer').value
+    };
+    myApp.basePost(API_METHOD.packdata, data, true).then(payload => {
+      localStorage.setItem(keyName, payload);
+    });
+  }
+    
+  if (getFormEl('byCard').checked) {
+    myApp.basePost(API_METHOD.packdata, _cardToken, true)
+        .then(payload => {
+          localStorage.setItem(keyName, payload);
+        });
     }
-      
-    if (getFormEl('byCard').checked) {
-      basePost(API_METHOD.packdata, _cardToken, true)
-          .then(payload => {
-            localStorage.setItem(keyName, payload);
-          });
-      }
+}
+
+function buildDeal() {
+  let payload;
+
+  if (getFormEl('byCard').checked) {
+    payload = _cardToken;
+  } else {
+    payload = {
+      "customer": getFormEl('authorizedCustomer').value,
+      "token": getFormEl('cards').value
+    };
   }
+  return payload;
+}
 
-  function buildDeal() {
-    let payload;
+// CHANGE FORM STATE
+function setFormState(state, inputName) {
+  const prewState = {...formState};
+  prewState[inputName] = state;
+  const newState = {...prewState};
+  return formState = {...newState};
+}
 
-    if (getFormEl('byCard').checked) {
-      payload = _cardToken;
-    } else {
-      payload = {
-        "customer": getFormEl('authorizedCustomer').value,
-        "token": getFormEl('cards').value
-      };
-    }
+// TOGGLE ERROR STYLES ON SPANS
+function addSpanErrorStyles(elementId, error) {
+  const element = errorSpans[elementId];
+  element.classList.add(errorClasses.span);
+  element.textContent = error;
+}
 
-    return payload;
-  }
-
-
-  // api
-  //validation
-
-
-
-  // CHANGE FORM STATE
-  function setFormState(state, inputName) {
-    const prewState = {...formState};
-    prewState[inputName] = state;
-    const newState = {...prewState};
-    return formState = {...newState};
-  }
-  // CHANGE FORM STATE
-
-  // TOGGLE ERROR STYLES ON SPANS
-  function addSpanErrorStyles(elementId, error) {
-    const element = errorSpans[elementId];
-    element.classList.add(errorClasses.span);
-    element.textContent = error;
-  }
-
-  // TOGGLE ERROR STYLES ON SPANS
-  function removeSpanErrorStyles(elementId, error) {
-    const element = errorSpans[elementId];
-    element.classList.remove(errorClasses.span);
-    element.textContent = error;
-  }
+// TOGGLE ERROR STYLES ON SPANS
+function removeSpanErrorStyles(elementId, error) {
+  const element = errorSpans[elementId];
+  element.classList.remove(errorClasses.span);
+  element.textContent = error;
+}
 
 // form methods and get elements methods
 function togglePaymentTypeForm() {
-    [document.getElementById('formCard'), document.getElementById('formByCrypto')]
-        .forEach(element => element.toggleAttribute('hidden'));
+  [getById('formCard'), getById('formByCrypto')]
+      .forEach(element => element.toggleAttribute('hidden'));
 }
 
 function toggleAuthForm() {
-    [document.getElementById('formSignIn'), document.getElementById('authorizedForm')]
-    .forEach(element => element.toggleAttribute('hidden'));
+  [getById('formSignIn'), getById('authorizedForm')]
+  .forEach(element => element.toggleAttribute('hidden'));
 }
 
 function disableSubmit() {
-  const button = document.getElementById('submitButton');
+  const button = getById('submitButton');
   button.disabled = true;
 }
 
 function enableSubmit() {
-    const button = document.getElementById('submitButton');
+    const button = getById('submitButton');
     button.disabled = false;
 }
 
@@ -1127,48 +1018,53 @@ function getFormEl(name) {
     return document.forms[0][name];
 }
 
-function _dById(name) {
-    document.getElementById(name);
+function getById(name) {
+  return document.getElementById(name);
 }
 
-async function renderFacilityData() {
-    const facilityData = document.getElementById("merchantData");
-    const initiator = document.getElementById("initiator");
-    const amount = document.getElementById("amount");
-    const verifyCode = document.getElementById("verifyCode");
-    let html = ""
+function renderFacilityData() {
+  const facilityData = getById("merchantData");
+  const initiator = getById("initiator");
+  const amount = getById("amount");
+  const verifyCode = getById("verifyCode");
+  let html = "";
 
-    Object.entries(paymentData.facilityData)
-        .filter(([key]) => key !== 'initiator')
-        .forEach(([key, value]) => {
-            const translatedTitleText = dictionary[formState.language][key];
-            const title = `<span data-lang-tag="${key}">${translatedTitleText.toUpperCase()}:</span>`;
-            const data = `<span class="data">${value}</span>`;
-            html += `<p>${title} ${data}</p>`;
-        });
+  Object.entries(paymentData.facilityData)
+      .filter(([key]) => key !== 'initiator')
+      .forEach(([key, value]) => {
+          const translatedTitleText = dictionary[formState.language][key];
+          const title = `<span data-lang-tag="${key}">${translatedTitleText}:</span>`;
+          const data = `<span class="data">${value}</span>`;
+          html += `<p>${title} ${data}</p>`;
+      });
 
-    facilityData.innerHTML = html;
-    initiator.value = paymentData.facilityData.initiator;
-    amount.value = paymentData.amount.currency + paymentData.amount.amount;
-    verifyCode.value = paymentData.tvc;
+  facilityData.innerHTML = html;
+  initiator.value = paymentData.facilityData.initiator;
+  amount.value = paymentData.amount.currency + paymentData.amount.amount;
+  verifyCode.value = paymentData.tvc;
 }
 
   // MODAL
-  const modal = document.getElementById("myModal");
-  const btn = document.getElementById("myBtn");
- 
-  btn.onclick = function () {
-	if(!agreementHasLoaded) {
-		baseGet(API_METHOD.getAgreement, formState.language, true)
+  
+getById("myBtn").addEventListener('click', function() {
+  const modal = getById("myModal");
+  if(!agreementHasLoaded) {
+		myApp.baseGet(API_METHOD.getAgreement, formState.language, true)
 			.then(responce => {
 				modal.innerHTML = responce
-				const closeBtn = document.getElementById("modalCloseBtn");
+				const closeBtn = getById("modalCloseBtn");
 				closeBtn.onclick = function () {
 				  modal.style.display = "none";
 				}
-				
 				agreementHasLoaded = true;
 			});
 		}
     modal.style.display = "block";
-  }
+})
+
+window.onload = () => {
+  detectLanguage(navigator.languages[0].slice(0,2));
+  fillCardForm();
+  signInSuccess();
+  initSubscription();
+}
