@@ -65,10 +65,14 @@ let formState = {
 const ourLanguages = ["ru","en","sp"];
 
 //variables
-const holderNameRegexp = /^[a-zA-Z]+ [a-zA-Z]+?$/;
-const cvvRegexp = /^[0-9]{3,4}$/;
-const verifyCodeRegexp = /^[0-9]{2,4}$/;
-const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]{2,5}$/;
+const patterns = {
+  customerPattern: null,
+  authorizedCustomerPattern: /^[a-zA-Z]+ [a-zA-Z]+?$/,
+  verifyCodePattern: /^[0-9]{2,4}$/,
+  emailPattern: /^[^@\s]+@[^@\s]+\.[^@\s]{2,5}$/,
+  cardNumberPattern: /[\d]{16}/,
+  cvcPattern: /[\d]{3}/
+};
 let authorizedUser = false;
 let hasCard = false;
 let errorPayload = {};
@@ -101,23 +105,26 @@ const messages = {
         },
         password: {
             required: "Обязательное поле",
-            less: "Не меннее 3 символов",
+            incorrect: "Не меннее 3 символов",
         },
         login: {
             required: "Обязательное поле",
-            less: "Не меннее 3 символов",
+            incorrect: "Не меннее 3 символов",
         },
         customer: {
-            required: "Должно быть (3-4 цифры) или Имя(ie. Ivan Petrov)",
+            required: "Обязательное поле",
+            incorrect: ""
         },
         verifyCode: {
-            required: "Должно быть (3-4 цифры) или Имя(ie. Ivan Petrov)",
+            required: "Обязательное поле",
         },
         authorizedCustomer: {
-            required: "Должно быть (3-4 цифры) или Имя(ie. Ivan Petrov)",
+            required: "Обязательное поле",
+            incorrect: "Должно быть (3-4 цифры) или Имя(ie. Ivan Petrov)"
         },
         cards: {
-            required: "Должно быть (3-4 цифры) или Имя(ie. Ivan Petrov)",
+            required: "Выберите карту",
+            incorrect: "Неверный формат данных"
         },
         cardNumber: {
           required: "Обязательное поле",
@@ -128,7 +135,7 @@ const messages = {
         },
         cvc: {
           required: "Обязательное поле",
-          less: "Должно быть 3 символа",
+          incorrect: "Должно быть 3 символа",
         }
     },
     en: {
@@ -239,7 +246,8 @@ const dictionary = {
         paybycard: "Оплатить картой",
         paybycrypto: "Другой метод оплаты",
         cvvorholder: "CVV или имя держателя:",
-        scancardbyemitter: "Сканировать карту",
+        scancardbyemitter: "",
+        putcardtoemitter: "Приложите карту к imetter",
         login: "Логин",
         password: "Пароль",
         rememberme: "Запомни меня",
@@ -303,6 +311,7 @@ const dictionary = {
         paybycrypto: "Another Method",
         cvvorholder: "CVV or Holder Name:",
         scancardbyemitter: "Scan Card by Emitter",
+        putcardtoemitter: "Put card to imetter",
         login: "Login",
         password: "Password",
         rememberme: "Remember me",
@@ -366,6 +375,7 @@ const dictionary = {
         paybycrypto: "Otro método",
         cvvorholder: "CVV o nombre del titular:",
         scancardbyemitter: "Escanear tarjeta por emisor",
+        putcardtoemitter: "Put card to imetter",
         login: "Acceso",
         password: "Contraseña",
         rememberme: "Recuérdame",
@@ -408,27 +418,28 @@ const dictionary = {
 
 let myApp = {}
 myApp.validation = {
-  setErrorUI : function ({status, code, message, fieldSelector}) {
-    const input = getEl(fieldSelector);
+  setErrorUI : function ({status, code, message, formSelector, fieldSelector}) {
+    const input = getEl(fieldSelector, formSelector);
     input.classList.add(errorClasses.input);
-    addSpanErrorStyles(fieldSelector, message);
+    addSpanErrorStyles(formSelector, fieldSelector, message);
     setFormState(false, fieldSelector);
   },
-   removeErrorUI: function ({status, code, message, fieldSelector}) {
-    const input = getEl(fieldSelector);
+   removeErrorUI: function ({status, code, message, formSelector, fieldSelector}) {
+    const input = getEl(fieldSelector, formSelector);
+    console.log(input);
     input.classList.remove(errorClasses.input);
-    removeSpanErrorStyles(fieldSelector, message);
+    removeSpanErrorStyles(formSelector, fieldSelector, message);
     setFormState(true, fieldSelector);
   },
-  form: function (fields) {
+  form: function (formSelector, fields) {
     let allValidInfo = {
       status: OK_STATUS,
       validFieldsInfo: []
     };
     fields.forEach(selector => {
-      let el = getEl(selector);
-      let fieldName = selector.replace(/^[#,\.]?/, '');
-      let validation = this[fieldName](el.value);
+      let el = getEl(selector, formSelector);
+      let typeOfValidation = el.dataset.validate;
+      let validation = this.field(formSelector, selector, typeOfValidation, el.value);
 
       if (validation.status == FAIL_STATUS) {
         this.setErrorUI(validation);
@@ -436,228 +447,53 @@ myApp.validation = {
       } else {
         this.removeErrorUI(validation)
       }
-
       allValidInfo.validFieldsInfo.push(validation);
     })
     return allValidInfo
   },
-  email: function(val) {
-    if (val.length < 4) {
-      return {
-        status : FAIL_STATUS,
-        code : 3,
-        message : messages[formState.language].email.less,
-        fieldSelector : '#email'
-      }
-    }
-    if (val.length > 100) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].email.more,
-          fieldSelector : '#email'
-        }
-    }
-    if (emailPattern.test(val)) {
-      return {
-          status : OK_STATUS,
-          code : null,
-          message : '',
-          fieldSelector : '#email'
-        }
-    }
+  field: function(formSelector, fieldSelector, typeOfValidation, val) {
+    // remove spaces in cardNumber
+    if (typeOfValidation == 'cardNumber') val = val.replace(/\s/g, '');
+
+    if (typeOfValidation == 'customer' && val == 'cvv') patterns.customerPattern = /^cvv$/;
     if (!val.length) {
       return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].email.required,
-          fieldSelector : '#email'
+          status: FAIL_STATUS,
+          code: 3,
+          message: messages[formState.language][typeOfValidation].required,
+          formSelector: formSelector,
+          fieldSelector: fieldSelector
+        }
+    }
+    if (patterns[`${typeOfValidation}Pattern`] && !patterns[`${typeOfValidation}Pattern`].test(val)) {
+      console.log(patterns.customerPattern);
+      return {
+          status: FAIL_STATUS,
+          code: 3,
+          message: messages[formState.language][typeOfValidation].incorrect,
+          formSelector: formSelector,
+          fieldSelector: fieldSelector
         }
     }
     return {
-        status : FAIL_STATUS,
-        code : 3,
-        message : messages[formState.language].login.incorrect,
-        fieldSelector : '#email'
+        status: OK_STATUS,
+        code: null,
+        message: '',
+        formSelector: formSelector,
+        fieldSelector: fieldSelector
       }
-  },
-  login: function(val) {
-    if (!val.length) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].login.required,
-          fieldSelector : '#login'
-        }
-    }
-    if (val.length < 3) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].login.less,
-          fieldSelector : '#login'
-        }
-    }
-    return {
-        status : OK_STATUS,
-        code : null,
-        message : '',
-        fieldSelector : '#login'
-      }
-  },
-  password: function(val) {
-    if (!val.length) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].password.required,
-          fieldSelector : '#password'
-        }
-    }
-    if (val.length < 3) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].password.less,
-          fieldSelector : '#password'
-        }
-    }
-    return {
-        status : OK_STATUS,
-        code : null,
-        message : '',
-        fieldSelector : '#password'
-      };
-  },
-  customer: function(val) {
-    if (!cvvRegexp.test(val) && !holderNameRegexp.test(val)) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].customer.required,
-          fieldSelector : '#customer'
-        }
-    }
-    return {
-        status : OK_STATUS,
-        code : null,
-        message : '',
-        fieldSelector : '#customer'
-      }
-  },
-  verifyCode: function(val) {
-    if (!verifyCodeRegexp.test(val)) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].verifyCode.required,
-          fieldSelector : '#verifyCode'
-        }
-    }
-    return {
-        status : OK_STATUS,
-        code : null,
-        message : '',
-        fieldSelector : '#verifyCode'
-      }
-  },
-  authorizedCustomer: function(val) {
-    if (!holderNameRegexp.test(val)) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].authorizedCustomer.required,
-          fieldSelector : '#authorizedCustomer'
-        }
-    }
-    return {
-        status : OK_STATUS,
-        code : null,
-        message : '',
-        fieldSelector : '#authorizedCustomer'
-      }
-  },
-  cards: function(val) {
-    if (!val.length) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].cards.required,
-          fieldSelector : '#cards'
-        }
-    }
-    return {
-        status : OK_STATUS,
-        code : null,
-        message : '',
-        fieldSelector : '#cards'
-      }
-  },
-  cardNumber: function(val) {
-    if (!val.length) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].cardNumber.required,
-          fieldSelector : '#cardNumber'
-        }
-    };
-    if (val.replace(/\s/g, '').length != 16) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].cardNumber.incorrect,
-          fieldSelector : '#cardNumber'
-        }
-    }
-    return {
-      status : OK_STATUS,
-      code : null,
-      message : '',
-      fieldSelector : '#cardNumber'
-    }
-  },
-  expMonth: function (val) {
-    if (!val.length) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].expMonth.required,
-          fieldSelector : '#expMonth'
-        }
-    };
-    return {
-      status : OK_STATUS,
-      code : null,
-      message : '',
-      fieldSelector : '#expMonth'
-    }
-  },
-  cvc: function (val) {
-    if (!val.length) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].cvc.required,
-          fieldSelector : '#cvc'
-        }
-    };
-    if (val.length > 0 && val.length < 3) {
-      return {
-          status : FAIL_STATUS,
-          code : 3,
-          message : messages[formState.language].cvc.less,
-          fieldSelector : '#cvc'
-        }
-    };
-    return {
-      status : OK_STATUS,
-      code : null,
-      message : '',
-      fieldSelector : '#cvc'
-    }
-  },
+  }
 };
+
+function exportFile(url, content) {
+  return fetch(`${BASE_URI}${API_PREFIX}${url}`, {
+      method: 'GET',
+      headers: {
+      'Content-Type': typeof content === 'string' ? 'plain/text' : 'application/json'
+      },
+      body: content,
+  }).then((response) => response.blob());
+}
 
 myApp.basePost = function (url, content, isText = false) {
   const contentType = typeof content === 'string' ? 'plain/text' : 'application/json';
@@ -727,10 +563,10 @@ function detectLanguage(lang) {
 }
 
 // Create Promise with validated field and data
-function dataSourcePromise (requiredFields, data, postParam) {
+function dataSourcePromise (formSelector, requiredFields, data, postParam) {
   //TODO data  is a temp argument. Real data will be received due basePost(postParam)
   return new Promise((resolve, reject) => {
-    let validInfo = myApp.validation.form(requiredFields);
+    let validInfo = myApp.validation.form(formSelector, requiredFields);
     if (validInfo.status == 'S_OK') {
       resolve({
         validInfo: validInfo,
@@ -777,18 +613,19 @@ function scanCardPromise (datasource) {
     }).catch(err => reject(err))
   })
 }
+
 //scanCard UI
 function scanCard() {
   const customerInput = getEl('#customer');
   const scanButton = getEl('#scanCard');
-  const cardNumber = getEl('#cardNumber');
+  const cardNumber = getEl('#cardInfo');
   const requiredFields = ['#customer'];
   const data= customerInput.value;
   
   scanButton.innerText = dictionary[formState.language].scanning;
   scanButton.toggleAttribute('disabled');
 
-  scanCardPromise(dataSourcePromise(requiredFields, data))
+  scanCardPromise(dataSourcePromise('#todo', requiredFields, data))
     .then(({validInfo, data}) => {
       console.log(data);
       customerInput.value = data.customer;
@@ -798,6 +635,7 @@ function scanCard() {
     .finally(()=>{
       setFormState(true, 'customer');
       scanButton.toggleAttribute('disabled');
+      getEl('#submitButton').disabled = false;
       scanButton.textContent ='Обновить карту';	  
     });
 }
@@ -896,7 +734,7 @@ function signIn() {
   const data= {login: getEl('#login').value,
             password: getEl('#password').value};
 
-  signInPromise(dataSourcePromise(requiredFields, data))
+  signInPromise(dataSourcePromise('#todo', requiredFields, data))
   .then(({validInfo, data}) => {
     loginToken = data;
     signInSuccess(data);
@@ -989,7 +827,7 @@ function onFormSubmit() {
     requiredFields = requiredFields.filter(item => item !== 'customer');
   }
 
-  onFormSubmitPromise(dataSourcePromise(requiredFields, payload, 'API_METHOD.accept, dealData(), true'))
+  onFormSubmitPromise(dataSourcePromise('#todo', requiredFields, payload, 'API_METHOD.accept, dealData(), true'))
     .then(res => {
       initSuccessPage();
     })
@@ -1023,7 +861,7 @@ function onCompletePayment() {
   };
 
   getEl('#rememberCard').checked && rememberCardToken();
-  getEl('#registerUser').checked && myApp.validation.form({formSelector: '#emitter', fields: ["#email"]});
+  getEl('#registerUser').checked && myApp.validation.form('#email-form', ["#email"]);
   localStorage.setItem("language", formState.language);
 
   exportFile(API_METHOD.export)
@@ -1097,15 +935,15 @@ function setFormState(state, inputName) {
 }
 
 // TOGGLE ERROR STYLES ON SPANS
-function addSpanErrorStyles(elementSelector, error) {
-  const element = getErrorSpans(elementSelector);
+function addSpanErrorStyles(formSelector, elementSelector, error) {
+  const element = getEl(elementSelector, formSelector).nextElementSibling;
   element.classList.add(errorClasses.span);
   element.textContent = error;
 }
 
 // TOGGLE ERROR STYLES ON SPANS
-function removeSpanErrorStyles(elementSelector, error) {
-  const element = getErrorSpans(elementSelector);
+function removeSpanErrorStyles(formSelector, elementSelector, error) {
+  const element = getEl(elementSelector, formSelector).nextElementSibling;
   element.classList.remove(errorClasses.span);
   element.textContent = error;
 }
@@ -1131,7 +969,11 @@ function enableSubmit() {
     button.disabled = false;
 }
 
-function getEl(el) {
+function getEl(el, parent = null) {
+  if (parent != null) {
+    return document.querySelector(`${parent} ${el}`);
+  }
+
   return document.querySelector(el);
 }
 
@@ -1175,43 +1017,25 @@ getEl(".myBtn").addEventListener('click', function() {
     modal.style.display = "block";
 })
 
-function setCursorPosition (pos, el) {
-        
-  el.focus();
-  if (el.setSelectionRange) {
-      el.setSelectionRange(pos, pos);
-  } else if (el.createTextRange) {
-      let range = el.createTextRange();
-      range.collapse(true);
-      range.moveEnd('character', pos);
-      range.moveStart('character', pos);
-      range.select();
-  }
-}
 
-function cardMask (selector) {
-  function createMask(e) {
-    let matrix = '____ ____ ____ ____',
-        i = 0,
-        val = this.value.replace(/\D/g, '');
 
-        this.value = matrix.replace(/./g, function (a) {
-            if (/[_\d]/.test(a) && (i < val.length)) {
-              return (val.charAt(i++))
-            } else  if (i >= val.length){ return '' }
-            else {return a}
-        })
-        setCursorPosition(this.value.length, this);
+function mask (selector, matrix) {
+
+  function setCursorPosition (pos, el) {
+    el.focus();
+    if (el.setSelectionRange) {
+        el.setSelectionRange(pos, pos);
+    } else if (el.createTextRange) {
+        let range = el.createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', pos);
+        range.moveStart('character', pos);
+        range.select();
     }
-    let input = getEl(selector);
-    input.addEventListener('input', createMask);
-    input.addEventListener('focus', createMask);
-}
+  }
 
-function cvcMask (selector) {
   function createMask(e) {
-    let matrix = '___',
-        i = 0,
+    let i = 0,
         val = this.value.replace(/\D/g, '');
 
         this.value = matrix.replace(/./g, function (a) {
@@ -1230,26 +1054,59 @@ function cvcMask (selector) {
 function welcome() {
   let payByCardBlock = getEl('[data-related-block="payByCard"]');
   let startBtn = getEl('#start button');
-  let cardManuallyBlock = getEl('[data-related-block="cardManually"]')
+  let cardManuallyForm = getEl('#card-manually-from');
   
   getEl('#payByPay').addEventListener('click', function() {
-    payByCardBlock.hidden = true;
+    cardManuallyForm.hidden = true;
     startBtn.disabled = false;
-    cardManuallyBlock.hidden = true;
+    //cardManuallyForm.hidden = true;
     startBtn.addEventListener('click', function(){
-      getEl('.welcome-container').style.display = 'none';
+      setDisplayNone('.welcome-container');
       getEl('#formContainer').hidden = false;
     })
   });
 
   getEl('#payByCard').addEventListener('click', function() {
-    payByCardBlock.hidden = false;
+    //payByCardBlock.hidden = false;
     startBtn.disabled = true;
+    cardManuallyForm.hidden = false;
+
+    getEl('#cardManually').addEventListener('click', function() {
+      cardManuallyForm.querySelectorAll('input').forEach(input => {
+        input.toggleAttribute('disabled');
+
+      });
+      getEl('#cvvorholder').toggleAttribute('disabled');
+      getEl('#scanCard-welcome').toggleAttribute('disabled');
+      startBtn.disabled = false;
+    });
+
+    getEl('#scanCard-welcome').addEventListener('click', function (e) {
+      e.preventDefault();
+      getEl('.scan-card-text').dataset.langTag = 'putcardtoemitter';
+      getEl('.scan-card-text').textContent = 'Приложите карту к emitter';
+      setTimeout(function() {
+        setDisplayNone('.scan-card-text');
+        setDisplayNone('.cardManually-container');
+        getEl('.scan-card-text').parentNode.style.justifyContent = 'end';
+
+        getEl('#cardNumber').value = '1111 2222 3333 4444';
+        getEl('#cardNumber').disabled = false;
+
+        setDisplayNone('.cvc-wraper');
+        getEl('.expMonth-wraper').classList.remove('float-left');
+        getEl('#expMonth').value = "2017-06-01";
+        getEl('#expMonth').disabled = false;
+        startBtn.disabled = false;
+
+      }, 1000);
+    })
+
     startBtn.addEventListener('click', function(){
-      let requiredFields = ['#cardNumber', '#expMonth', '#cvc'];
-      let validInfo = myApp.validation.form(requiredFields);
+      let requiredFields = getEl('#cardManually').checked ? ['#cardNumber', '#cvc', '#expMonth'] : ['#cardNumber', '#expMonth','#cvvorholder']
+      let validInfo = myApp.validation.form('#card-manually-from', requiredFields);
       if (validInfo.status == OK_STATUS) {
-        const formData = new FormData(getEl('form[data-related-block="cardManually"]'));
+        const formData = new FormData(cardManuallyForm);
         let obj = {}
 
         formData.forEach(function (value, key) {
@@ -1261,26 +1118,90 @@ function welcome() {
         getEl('.welcome-container').style.display = 'none';
         getEl('#formContainer').hidden = false;
       }
+      getEl('#customer').value = getEl('#cvvorholder').value;
+
+      let data
+      if (isNaN(+(getEl('#customer').value))) {
+        data = {
+          customer: res.data,
+          tokenName: "34*21***34",
+          tokenValue: "MzQqMjEqKiozNC5ZQU5BIFNUUg=="
+        }
+      } else {
+        data = {
+          customer: "cvv",
+          tokenName: "34*21***34",
+          tokenValue: "MzQqMjEqKiozNC4xMTE="
+        }
+        
+      }
+
+      getEl('#customer').value = data.customer;
+      getEl('#cardInfo').innerText = data.tokenName;
+      setFormState(true, 'customer');
+      getEl('#submitButton').toggleAttribute('disabled');
+      getEl('#scanCard').textContent ='Обновить карту';	
     })
   });
+function setDisplayNone (selector, parent = null) {
+  getEl(selector, parent).style.display = 'none';
+}
+function setDisplayBlock (selector) {
+  getEl(selector).style.display = 'block';
+}
+  
 
-  getEl('#cardManually').addEventListener('click', function() {
-    cardManuallyBlock.toggleAttribute('hidden');
-    startBtn.disabled = false;
+  mask('#cardNumber', '____ ____ ____ ____');
+  mask("#cvc", '___'); //?
+
+  
+}
+
+function cvvValidator (selector) {
+  let inputs = document.querySelectorAll('[data-validate="customer"]');
+  inputs.forEach(input => {
+    input.addEventListener('input', function () {
+      if (isNaN(this.value)) {
+        this.value = this.value.replace(/\d/, '');
+        patterns.customerPattern = /^[a-zA-Z]+ [a-zA-Z]+?$/;
+        messages.ru.customer.incorrect = 'Не верный формат. Имя Фамилия';
+      } else {
+        this.value = this.value.replace(/\D/, '').match(/[\w]{0,3}/);
+        patterns.customerPattern = /^[0-9]{3,4}$/;
+        messages.ru.customer.incorrect = 'Должно быть 3 симлова';
+      }
+    });
   })
-
-  cardMask('#cardNumber');
-  cvcMask("#cvc");
 }
 
 window.onload = () => {
   myApp.baseGet(API_METHOD.getdetails, "")
     .then(responce => {
-    paymentData = responce;
+      let res = {
+        amount: {
+            amount: "0322",
+            currency: "$",
+            tax: 0
+          },
+        facilityData: {
+            account: "0000000000",
+            address: "Some address",
+            email: "aws@gmail.com",
+            iban: "UA  XX  XXXXXX  XXXXXXXXXXXXXXXXXXXX",
+            initiator: "Ivan Petrov",
+            initiatorId: 1,
+            merchant: "Chudinov Yuri",
+            merchantId: "31435110",
+            phone: "380675556688"
+          },
+        tvc: 4444
+      }
+    paymentData = res;
       detectLanguage(navigator.languages[0].slice(0,2));
       fillCardForm();
       signInSuccess();
       initSubscription();
       welcome();
+      cvvValidator('[data-validate="customer"]');
     });
 }

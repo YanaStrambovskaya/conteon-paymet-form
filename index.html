@@ -62,14 +62,14 @@
         <input id="amount" class="control" type="text" disabled>
     </div>
 
-    <form class="form">
+    <form id="todo" class="form">
         <div class="form-control">
             <label class="label" for="verifyCode" data-lang-tag="trantvc">
                 tran tvc:
             </label>
 
             <div class="inp-err-wrapper">
-                <input id="verifyCode" class="control" type="text">
+                <input id="verifyCode" data-validate="verifyCode" class="control" type="text">
                 <span id="verifyCode-error-span" class="error-msg"></span>
             </div>
         </div>
@@ -92,20 +92,19 @@
             </div>
         </div>
 
-        <div id="formCard"
-             class="form-card">
+        <div id="formCard" class="form-card">
             <div class="form-control">
                 <label class="label" for="customer" data-lang-tag="cvvorholder">
                     CVV or Holder Name:
                 </label>
                 <div class="inp-err-wrapper">
-                    <input id="customer" class="control" type="text" placeholder="111">
+                    <input id="customer" data-validate="customer" class="control" type="text" placeholder="111">
                     <span id="customer-error-span" class="error-msg"></span>
                 </div>
                 <input id="cardToken" class="input" type="text" hidden>
             </div>
             <div class="submit-container">
-                <p class="description" data-lang-tag="scancardbyemitter">
+                <p id="cardInfo" class="description" data-lang-tag="scancardbyemitter">
                     Scan Card by Emitter
                 </p>
                 <button id="scanCard" class="button-submit" type="button" data-lang-tag="scancardbutton">
@@ -121,7 +120,7 @@
                         login:
                     </label>
                     <div class="inp-err-wrapper">
-                        <input id="login" class="control" type="text">
+                        <input id="login" data-validate="login" class="control" type="text">
                         <span id="login-error-span" class="error-msg"></span>
                     </div>
                 </div>
@@ -132,7 +131,7 @@
                     </label>
 
                     <div class="inp-err-wrapper">
-                        <input id="password" class="control" type="password">
+                        <input id="password" data-validate="password" class="control" type="password">
                         <span id="password-error-span" class="error-msg"></span>
                     </div>
                 </div>
@@ -161,7 +160,7 @@
                         customer:
                     </label>
                     <div class="inp-err-wrapper">
-                        <input id="authorizedCustomer" class="control" type="text">
+                        <input id="authorizedCustomer" data-validate="authorizedCustomer" class="control" type="text">
                         <span id="authorizedCustomer-error-span" class="error-msg"></span>
                     </div>
                 </div>
@@ -170,7 +169,7 @@
                         card:
                     </label>
                     <div class="inp-err-wrapper">
-                        <select id="cards" class="control" name="cards" >
+                        <select id="cards" data-validate="cards" class="control" name="cards" >
                             <option value="" data-lang-tag="choosewallet" >Choose Wallet</option>
                         </select>
                         <span id="cards-error-span" class="error-msg"></span>
@@ -237,11 +236,12 @@
         <label class="label" for="email" data-lang-tag="emaillabel">
             email:
         </label>
-        <!-- ADD VALIDATION TO THIS INPUT AND ERROR DISPLAY -->
-        <div class="inp-err-wrapper">
-            <input id="email" class="control" type="email">
-            <span id="email-error-span" class="error-msg"></span>
-        </div>
+        <form id="email-form">
+            <div class="inp-err-wrapper">
+                <input id="email" data-validate="email" class="control" type="email">
+                <span class="error-msg"></span>
+            </div>
+        </form>
     </div>
     <button id="completePayment" class="button-submit" data-lang-tag="completebutton">
         Complete
@@ -281,57 +281,69 @@
         <label class="label" for="payByCard" data-lang-tag="paybycard">Pay by card</label>
     </div>
 
-    <div data-related-block="payByCard" hidden>
-        <div class="submit-container">
-            <p data-lang-tag="scancardbyemitter">
-                Scan Card by Emitter
-            </p>
-            <button id="scanCard" class="button-submit" type="button" data-lang-tag="scancardbutton">
-                Scan Card
-            </button>
-        </div>
-        <div class="submit-container">
-            <div class="checkbox-container">
-                <input id="cardManually" class="checkbox" type="checkbox">
-                <label class="control" for="cardManually"></label>
-                <label class="label" for="cardManually" data-lang-tag="cardmanually">
-                    I want input card manually
-                </label>
-            </div>
-            <p class="link-wrap description service-conditions">
-                <span data-lang-tag="acceptmanualcard">By Accepting manual card input I agree with service </span>
-                <a href="#" data-lang-tag="agreement">agreement </a>
-                <span data-lang-tag="cardproceed">of card proceed</span>
-            </p>
-        </div>
-    </div>
+    
 
-    <form class="form" data-related-block="cardManually" hidden>
+    <form id="card-manually-from" class="form" hidden>
+        <div data-related-block="payByCard">
+            <br>
+            <div class="form-control">
+                <label class="label" for="cvvorholder" data-lang-tag="cvvorholder">
+                    CVV or Holder Name:
+                </label>
+                <div class="inp-err-wrapper">
+                    <input id="cvvorholder" data-validate="customer" class="customer control" type="text" placeholder="111 or Ivan Petrov">
+                    <span class="error-msg"></span>
+                </div>
+                <input id="cardToken" class="input" type="text" hidden>
+            </div>
+            <div class="submit-container">
+                <p class="scan-card-text" data-lang-tag="scancardbyemitter">
+                    Scan Card by Emitter
+                </p>
+                <button id="scanCard-welcome" class="button-submit" data-lang-tag="scancardbutton">
+                    Scan Card
+                </button>
+            </div>
+            <div class="submit-container cardManually-container">
+                <div class="checkbox-container">
+                    <input id="cardManually" class="checkbox" type="checkbox">
+                    <label class="control" for="cardManually"></label>
+                    <label class="label" for="cardManually" data-lang-tag="cardmanually">
+                        I want input card manually
+                    </label>
+                </div>
+                <p class="link-wrap description service-conditions">
+                    <span data-lang-tag="acceptmanualcard">By Accepting manual card input I agree with service </span>
+                    <a href="#" data-lang-tag="agreement">agreement </a>
+                    <span data-lang-tag="cardproceed">of card proceed</span>
+                </p>
+            </div>
+        </div>
         <div class="form-control">
             <label class="label" for="cardNumber" data-lang-tag="cardnumber">
                 Card Number
             </label>
             <div class="inp-err-wrapper">
-                <input id="cardNumber" class="control" type="text" name="cardNumber" placeholder="0000 0000 0000 0000">
-                <span id="cardNumber-error-span" class="error-msg"></span>
+                <input id="cardNumber" data-validate="cardNumber" class="control" type="text" name="cardNumber" placeholder="0000 0000 0000 0000" disabled>
+                <span class="error-msg"></span>
             </div>
         </div>
-        <div class="form-control float-left">
+        <div class="form-control float-left expMonth-wraper">
             <label class="label" for="expMonth" data-lang-tag="expmonth">
                 Exp Month/Year
             </label>
             <div class="inp-err-wrapper">
-                <input id="expMonth" class="control" type="date" name="expMonth" required>
-                <span id="expMonth-error-span" class="error-msg"></span>
+                <input id="expMonth" data-validate="expMonth" class="control" type="date" name="expMonth" disabled>
+                <span class="error-msg"></span>
             </div>
         </div>
-        <div class="form-control float-right">
+        <div class="form-control float-right cvc-wraper">
             <label class="label" for="cvc" data-lang-tag="cvc">
                 CVC
             </label>
             <div class="inp-err-wrapper">
-                <input id="cvc" class="control" type="text" name="cvc" placeholder="111">
-                <span id="cvc-error-span" class="error-msg"></span>
+                <input id="cvc" data-validate="customer" class="control" type="text" name="cvc" placeholder="111" disabled>
+                <span class="error-msg"></span>
             </div>
         </div>
     </form>
