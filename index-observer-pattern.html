@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Emitter</title>
+	<meta name="description" content="Simple Starter Description">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta property="og:image" content="images/image.jpg">
+	<!-- <link rel="icon" href="images/favicon.png"> -->
+	<!-- <link rel="stylesheet" href="css/style.css"> -->
+</head>
+
+<body>
+
+	<main class="main">
+		<section id="section-3" class="calculator">
+
+			<h2 class="text__main text__calculator d-none visible-in-price-mode">
+				Калькулятор
+			</h2>
+			<h2 class="text__main text__calculator visible-in-billcode-mode">Ввод чека</h2>
+
+			<nav class="nav">
+				<div class="switch__block">
+					<label class="switch">
+						<input type="checkbox" checked>
+						<span class="slider round"></span>
+					</label>
+				</div>
+			</nav>
+			<form class="pt-10" name="calculator">
+				<input class="calculator__input form__input" 
+						style="margin-bottom:14px;" 
+						type="textfield" 
+						name="ans" 
+						value="" 
+				>
+				<div class="calculator__block d-none visible-in-price-mode">
+					<div class="calculator__line">
+						<input class="color__red" 
+								type="reset" 
+								value="C">
+						<input class="color__blue" 
+								type="button" 
+								value="%" 
+								onclick="document.calculator.ans.value+='%'"
+						>
+						<input class="color__blue" 
+								type="button" 
+								value="." 
+								onclick="document.calculator.ans.value+='.'"
+						>
+						<input class="color__blue" 
+								type="button" 
+								value="÷" 
+								onclick="document.calculator.ans.value+='/'"
+						>
+					</div>
+
+					<div class="calculator__line pt-10">
+						<input type="button" 
+								value="1" 
+								onclick="document.calculator.ans.value+='1'"
+						>
+						<input type="button" 
+								value="2" 
+								onclick="document.calculator.ans.value+='2'"
+						>
+						<input type="button" 
+								value="3" 
+								onclick="document.calculator.ans.value+='3'"
+						>
+						<input class="color__blue" 
+								type="button" 
+								value="×" 
+								onclick="document.calculator.ans.value+='*'"
+						>
+					</div>
+
+					<div class="calculator__line pt-10">
+						<input type="button" 
+								value="4" 
+								onclick="document.calculator.ans.value+='4'"
+						>
+						<input type="button" 
+								value="5" 
+								onclick="document.calculator.ans.value+='5'"
+						>
+						<input type="button" 
+								value="6" 
+								onclick="document.calculator.ans.value+='6'"
+						>
+						<input class="color__blue" 
+								type="button" 
+								value="-" 
+								onclick="document.calculator.ans.value+='-'"
+						>
+					</div>
+
+					<div class="calculator__line pt-10">
+						<input type="button" 
+								value="7" 
+								onclick="document.calculator.ans.value+='7'"
+						>
+						<input type="button" 
+								value="8" 
+								onclick="document.calculator.ans.value+='8'"
+						>
+						<input type="button" 
+								value="9" 
+								onclick="document.calculator.ans.value+='9'"
+						>
+						<input class="color__blue" 
+								type="button" 
+								value="+" 
+								onclick="document.calculator.ans.value+='+'"
+						>
+					</div>
+
+					<div class="calculator__line pt-10">
+						<input type="button" 
+								value="." 
+								onclick="document.calculator.ans.value+='.'"
+						>
+						<input type="button" 
+								value="0" 
+								onclick="document.calculator.ans.value+='0'"
+						>
+						<input class="color__blue" 
+								type="button" 
+								value="." 
+								onclick="document.calculator.ans.value+='.'"
+						>
+						<input class="color__blue" 
+								type="button" 
+								value="="
+								onclick="document.calculator.ans.value=eval(document.calculator.ans.value)"
+						>
+					</div>
+				</div>
+				<button type="submit" class="btn submit-btn">Отправить чек</button>
+			</form>
+		</section>
+	</main>
+
+	<style>
+		*,::after,::before{padding:0;margin:0;border:0;-webkit-box-sizing:border-box;box-sizing:border-box}a{text-decoration:none}li,ol,ul{list-style:none}img{vertical-align:none}h1,h2,h3,h4,h5,h6{font-weight:inherit;font-size:inherit}body,html{height:100%;line-height:1;font-size:14px;font-family:-apple-system,BlinkMacSystemFont,sans-serif}button,input,textarea{-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:0}.d-none{display:none!important}.pt-10{padding-top:10px}.pt-20{padding-top:20px}.pt-30{padding-top:30px}.pt-35{padding-top:35px}.pt-50{padding-top:50px}.pe-10{padding-right:10px}.ps-10{padding-left:10px}.mt-20{margin-top:20px}.mt-40{margin-top:40px}.mb-20{margin-bottom:20px}#section-1{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;height:100%}#section-10,#section-11,#section-2,#section-5{padding-top:50px;height:100%}#section-12,#section-13,#section-6,#section-7,#section-8,#section-9{height:100%}.main{max-width:375px;height:100%;margin:0 auto;padding:0 25px}.img__logo{display:block;margin:0 auto}.text__main{font-weight:400;font-size:34px;text-align:center;padding-top:25px}.text__calculator{font-size:20px!important}.text__subtitle{font-weight:300;text-align:center;color:#999;padding-top:10px;line-height:1.5}.text__nav{font-weight:600;font-size:17px;color:#151522}.text__download{color:#999;margin-left:15px}.text__agreement{display:block;width:100%;color:#151522;margin-top:10px;line-height:1.5;font-weight:300}.paragraph{line-height:1.5;color:#151522;font-weight:400;text-align:justify}.href-download{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.form__block{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;min-height:100%;padding-bottom:50px}.form__label{display:block;width:100%;padding-bottom:12px;color:#151522;font-weight:600}.form__input{display:block;width:100%;padding:16px 20px;border:1px solid #e4e4e499;border-radius:5px}.form__input:focus{border:1px solid #6979f899}.form-check{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:20px}.form-check-input{position:relative;width:20px;height:20px;border-radius:50%;border:2px solid #9ba6fa;cursor:pointer}.form-check-input:checked{border-color:#6979f8}.form-check-input:checked::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#6979f8}.form-check-label{font-weight:400;font-size:16px;padding-left:15px;cursor:pointer}.scan__card{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.scan__card span{display:block;min-width:180px;font-weight:300;font-size:15px}.scan__card .btn{margin-top:0}.btn.disabled{background:#9ba6fa;pointer-events:none}.switch__block{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.text-switch{padding-left:20px}.text-accepting{display:block;margin-top:15px;font-size:10px;color:#999;line-height:1.5}.text-accepting a{color:#6979f8;text-decoration:underline}.switch{position:relative;display:inline-block;width:35px;height:20px}.switch input{opacity:0;width:0;height:0}.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#fff;-webkit-transition:.4s;transition:.4s;-webkit-box-shadow:0 4px 4px #32324714,0 4px 8px #3232470f;box-shadow:0 4px 4px #32324714,0 4px 8px #3232470f}.slider:before{position:absolute;content:"";height:16px;width:16px;left:2px;bottom:2px;background-color:#e4e4e4;-webkit-transition:.4s;transition:.4s}input:checked+.slider:before{background-color:#6979f8}input:checked+.slider:before{-webkit-transform:translateX(15px);transform:translateX(15px)}.slider.round{border-radius:34px}.slider.round:before{border-radius:50%}.nav{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding-top:30px}.calculator__block{background:#f4f6ff;border-radius:24px;padding:40px 45px}.calculator__block input{font-weight:400;font-size:28px;display:-webkit-box;display:-ms-flexbox;display:flex;width:40px;height:40px;background:0 0}.calculator__line{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.calculator__input{display:block;padding:15px 15px;width:100%;font-weight:400;font-size:24px;}.color__red{color:#ff3958}.color__blue{color:#6979f8}.btn{position:relative;display:block;width:100%;margin-top:20px;padding:16px 20px;background:#6979f8;border-radius:5px;font-weight:300;font-size:16px;text-align:center;color:#fff}.btn__outline{position:relative;display:block;width:100%;margin-top:20px;padding:16px 20px;border:2px solid #6979f8;border-radius:5px;font-weight:300;font-size:16px;text-align:center;color:#6979f8}.btn:active,.btn__outline:active{top:2px}.list__employees{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding-top:17px;padding-bottom:23px;border-bottom:1px solid #e4e4e499}.list__employees-people{display:-webkit-box;display:-ms-flexbox;display:flex}.list__employees-img{width:40px;height:40px;border-radius:50%;background:#ccc}.list__employees-name{margin-left:20px}.text__list-job{display:block;width:100%;color:#999;font-weight:400;font-size:12px}.text__list-name{display:block;width:100%;font-weight:300;font-size:14px;color:#151522;margin-top:5px}.payment-title{width:100%;text-align:center}.form-container .field-container:first-of-type{-ms-grid-row:1;-ms-grid-column:1;-ms-grid-column-span:2;grid-area:name}.form-container .field-container:nth-of-type(2){-ms-grid-row:2;-ms-grid-column:1;-ms-grid-column-span:2;grid-area:number}.form-container .field-container:nth-of-type(3){-ms-grid-row:3;-ms-grid-column:1;grid-area:expiration}.form-container .field-container:nth-of-type(4){-ms-grid-row:3;-ms-grid-column:2;grid-area:security}.field-container input{-webkit-box-sizing:border-box;box-sizing:border-box}.field-container{position:relative}.form-container{display:-ms-grid;display:grid;grid-column-gap:10px;-ms-grid-columns:auto auto;grid-template-columns:auto auto;-ms-grid-rows:90px 90px 90px;grid-template-rows:90px 90px 90px;grid-template-areas:"name name" "number number" "expiration security";max-width:400px;color:#707070}.ccicon{height:38px;position:absolute;right:6px;top:calc(50% - 17px);width:60px}.preload *{-webkit-transition:none!important;-moz-transition:none!important;-ms-transition:none!important;-o-transition:none!important}.card-container{width:100%;max-width:400px;max-height:240px;height:240px;padding-top:20px}#ccsingle{position:absolute;right:15px;top:20px}#ccsingle svg{width:100px;max-height:60px}.creditcard svg#cardback,.creditcard svg#cardfront{width:100%;-webkit-box-shadow:1px 5px 6px 0 #000;box-shadow:1px 5px 6px 0 #000;border-radius:22px}#generatecard{cursor:pointer;float:right;font-size:12px;color:#fff;padding:2px 4px;background-color:#909090;border-radius:4px;cursor:pointer;float:right}.creditcard .darkcolor,.creditcard .lightcolor{-webkit-transition:fill .5s;transition:fill .5s}.creditcard .lightblue{fill:#03a9f4}.creditcard .lightbluedark{fill:#0288d1}.creditcard .red{fill:#ef5350}.creditcard .reddark{fill:#d32f2f}.creditcard .purple{fill:#ab47bc}.creditcard .purpledark{fill:#7b1fa2}.creditcard .cyan{fill:#26c6da}.creditcard .cyandark{fill:#0097a7}.creditcard .green{fill:#66bb6a}.creditcard .greendark{fill:#388e3c}.creditcard .lime{fill:#d4e157}.creditcard .limedark{fill:#afb42b}.creditcard .yellow{fill:#ffeb3b}.creditcard .yellowdark{fill:#f9a825}.creditcard .orange{fill:#ff9800}.creditcard .orangedark{fill:#ef6c00}.creditcard .grey{fill:#bdbdbd}.creditcard .greydark{fill:#616161}#svgname{text-transform:uppercase}#cardfront .st2{fill:#fff}#cardfront .st3{font-family:"Source Code Pro",monospace;font-weight:600}#cardfront .st4{font-size:54.7817px}#cardfront .st5{font-family:"Source Code Pro",monospace;font-weight:400}#cardfront .st6{font-size:33.1112px}#cardfront .st7{opacity:.6;fill:#fff}#cardfront .st8{font-size:24px}#cardfront .st9{font-size:36.5498px}#cardfront .st10{font-family:"Source Code Pro",monospace;font-weight:300}#cardfront .st11{font-size:16.1716px}#cardfront .st12{fill:#4c4c4c}#cardback .st0{fill:none;stroke:#0f0f0f;stroke-miterlimit:10}#cardback .st2{fill:#111}#cardback .st3{fill:#f2f2f2}#cardback .st4{fill:#d8d2db}#cardback .st5{fill:#c4c4c4}#cardback .st6{font-family:"Source Code Pro",monospace;font-weight:400}#cardback .st7{font-size:27px}#cardback .st8{opacity:.6}#cardback .st9{fill:#fff}#cardback .st10{font-size:24px}#cardback .st11{fill:#eaeaea}#cardback .st12{font-family:"Rock Salt",cursive}#cardback .st13{font-size:37.769px}.creditcard{width:100%;max-width:400px;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;transition:-webkit-transform .6s;-webkit-transition:-webkit-transform .6s;transition:transform .6s;transition:transform .6s,-webkit-transform .6s;cursor:pointer}.creditcard .back,.creditcard .front{position:absolute;width:100%;max-width:400px;-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-font-smoothing:antialiased;color:#47525d}.creditcard .back{-webkit-transform:rotateY(180deg);transform:rotateY(180deg)}.creditcard.flipped{-webkit-transform:rotateY(180deg);transform:rotateY(180deg)}.card__column{display:-webkit-box;display:-ms-flexbox;display:flex;padding-top:20px}.card__column .form__label{padding:0 0 10px}.accordion{position:relative;background-color:#fff;color:#151522;cursor:pointer;padding:16px 20px;width:100%;text-align:left;border:1px solid #e4e4e499;border-radius:5px 5px 0 0;outline:0;-webkit-transition:.4s;transition:.4s}.accordion::after{content:"";position:absolute;top:20px;right:20px;width:12px;height:12px;border-top:1px solid #151522;border-right:1px solid #151522;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transition:-webkit-transform .3s ease;transition:-webkit-transform .3s ease;transition:transform .3s ease;transition:transform .3s ease,-webkit-transform .3s ease}.accordion:hover,.active{background-color:#fff}.active.accordion::after{top:18px;-webkit-transform:rotate(135deg);transform:rotate(135deg)}.panel{background-color:#fff;max-height:0;overflow:hidden;-webkit-transition:max-height .2s ease-out;transition:max-height .2s ease-out}.panel-body{padding:16px 20px;border:1px solid #e4e4e499;border-top:none;border-radius:0 0 5px 5px}.panel-body-line{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;margin-top:15px;font-size:13px;font-weight:300}
+	</style>
+	<script>
+        "use strict"  
+        /**
+         * Shows all components mentioned in a list,  each component should present in DOM
+         * @param {string array} list names of components or single name
+         * @returns {Promise}
+         */
+        function showComponents (list, hideClassName = 'd-none') {
+            list.forEach(el => {
+                el.classList.remove(hideClassName);
+            });
+        }
+
+        /**
+         * Hides all components mentioned in a list, each component should present in DOM
+         * @param {string array} list names of components or single name
+         * @returns {Promise}
+         */
+        function hideComponents (list, hideClassName = 'd-none') { 
+            list.forEach( el => {
+                el.classList.add(hideClassName);
+            })
+        }
+
+
+        // HELP FUNCTION 
+        function createFromData ({formEl, requeredField}) {
+            console.log(formEl);
+            
+            const formData = new FormData(formEl);
+
+            const object = {};
+            formData.forEach(function(value, key){
+                object[key] = value;
+                console.log(key);
+            });
+            console.log(object);
+            return JSON.stringify(object)
+        }
+
+        function Form ({formEl, requeredField = []}) {
+            console.log(formEl);
+            const formValidateStatus = validate.form(formEl, requeredField);
+            
+            if (formValidateStatus == 'S_FAIL') return false;
+
+            const payload = createFromData({formEl : formEl, requeredField: requeredField});
+            return payload;
+        }
+
+        function Post (url, payload) {
+            console.log(url, payload);
+            let result = fetch(url, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8',
+                },
+                body: payload,
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('inside response.ok');
+                    console.log(response);
+                    return {};
+                } 
+                // return Promise.reject(new Error(response.statusText))
+                throw new Error('Something went wrong');
+            })
+            .catch(err => {
+                console.log(err);
+                // return Promise.reject(new Error(response.statusText))
+                throw new Error(err);
+            })
+            
+            return result;
+        }
+
+        const OK_STATUS = 'S_OK';
+        const FAIL_STATUS = 'S_FAIL';
+
+        const validate = {
+            //  @param  {node} form (required)
+            //  @param  {arr<string>} arr<string> (required)
+            form: function (form, requiredFields = []) {
+                let formValidStatus = OK_STATUS;
+                if (requiredFields.length > 0) {
+                    requiredFields.forEach(field => {
+                        let el = form.querySelector(`[name="${field.name}"]`);
+                        if (el) {
+                            let validType = field.validationType;
+                            if (validType) {
+                                let validation = this[validType](el, el.value);
+                                if (validation) {
+                                    if (validation == FAIL_STATUS) {
+                                        // this.setError(el);
+                                        formValidStatus = FAIL_STATUS;
+                                    } else {
+                                        // this.removeError(el)
+                                    }
+                                } else {
+                                    console.log(field, 'No such validation method');
+                                    formValidStatus = FAIL_STATUS;
+                                }
+                                
+                            } else {
+                                console.log(field, 'Set [data-validation-type=] attr');
+                                formValidStatus = FAIL_STATUS;
+                            }
+                        } else {
+                            console.log(field, 'Set [name=] attr or check is it correct');
+                            formValidStatus = FAIL_STATUS;
+                        }
+                        
+                    })
+                    return formValidStatus;
+                }
+                
+            },
+            text: function (el, val) {
+                return (val == '' || val == null) ? FAIL_STATUS : OK_STATUS;
+            }
+        }
+
+        function formSubmit ({formEl, requeredField, postUrl}) {
+            const payload = Form({ formEl, requeredField });
+            if( payload ) {
+                Post(postUrl, payload)
+                .then(res => {formEl.reset()})
+                .catch(err  => console.log(err))
+            }
+        }
+
+        function createStore (reducer) {
+            let state;
+            const listeners = [];
+
+            const getState = () => state;
+
+            const dispatch = (action) => {
+            console.log(action);
+                state = reducer(state, action);
+                listeners.forEach(listener => listener());
+            }
+
+            const subscribe = (listener) => {
+                listeners.push(listener);
+                console.log(listeners);
+            }
+
+            dispatch({});
+
+            return {getState, dispatch, subscribe}
+        }
+        // HELP FUNCTION END
+
+
+
+
+        // INIT CALCULATOR COMPONENT FUNCTION
+        function calculator () {
+
+            const PRICEURL = 'https://localhost:433/api/inputprice';
+            const BILLCODEURL = 'https://localhost:433/api/inputbillcode';
+
+            const component = document.querySelector('.calculator');
+            const switcher = component.querySelector('.calculator label.switch input');
+            const input = component.querySelector('.calculator__input');
+            const form = component.querySelector('form');
+            const submitBtn = form.querySelector('.submit-btn');
+            const visibleInbillCodeMode = component.querySelectorAll('.visible-in-billcode-mode');
+            const visibleInpriceMode = component.querySelectorAll('.visible-in-price-mode');
+            
+
+            const initState = {
+                priceMode: false,
+                billCodeMode: true,
+                switcherChecked: false,
+                submitBtnTextContent: 'Отправить чек',
+                inputTextAlign: 'left',
+                inputValue: '',
+                inputReadonly: false,
+                hiddenElems: visibleInpriceMode,
+                shownElems: visibleInbillCodeMode
+            }
+
+            //Action
+            const priceModeAction = () => {
+                return {
+                    type: 'PRICEMODE',
+                    payload: {}
+                }
+            }
+            const billCodeModeAction = () => {
+                return {
+                    type: 'BILLCODEMODE',
+                    payload: {}
+                }
+            }
+
+            // Reducer
+            const switchModeReducer = (state = initState, action) => {
+                console.log('action.type ', action.type);
+                switch (action.type) {
+                    case 'PRICEMODE' : 
+                        return {
+                            ...state,
+                            priceMode: true,
+                            billCodeMode: false,
+                            switcherChecked: false,
+                            submitBtnTextContent: 'Отправить сумму',
+                            inputTextAlign: 'right',
+                            inputValue: '',
+                            inputReadonly: true,
+                            hiddenElems: visibleInbillCodeMode,
+                            shownElems: visibleInpriceMode
+                        };
+                    case 'BILLCODEMODE' : 
+                    return {
+                        ...state,
+                        priceMode : false,
+                        billCodeMode : true,
+                        switcherChecked: true,
+                        submitBtnTextContent: 'Отправить чек',
+                        inputTextAlign: 'left',
+                        inputValue: '',
+                        inputReadonly: false,
+                        hiddenElems: visibleInpriceMode,
+                        shownElems: visibleInbillCodeMode
+                    };
+                    default:
+                        return state;
+                }
+
+            }
+
+            const calculatorStore = createStore(switchModeReducer);
+            calculatorStore.subscribe(() => {
+                switcher.checked = calculatorStore.getState().switcherChecked;
+                submitBtn.textContent = calculatorStore.getState().submitBtnTextContent;
+                input.style.textAlign = calculatorStore.getState().inputTextAlign;
+                input.value = calculatorStore.getState().inputValue;
+                showComponents(calculatorStore.getState().shownElems);
+                hideComponents(calculatorStore.getState().hiddenElems);
+
+                if (calculatorStore.getState().inputReadonly) {
+                    input.setAttribute('readonly', true);
+                } else {
+                    input.removeAttribute('readonly');
+                }
+            })
+
+            switcher.addEventListener('click', () => {
+                if (calculatorStore.getState().billCodeMode == true) {
+                    calculatorStore.dispatch(priceModeAction());
+                    console.log('billcodemode', calculatorStore.getState().billCodeMode);
+                    console.log('pricemode', calculatorStore.getState().priceMode);
+                } else if (calculatorStore.getState().priceMode == true) {
+                    
+                    calculatorStore.dispatch(billCodeModeAction());
+                    console.log('billcodemode', calculatorStore.getState().billCodeMode);
+                    console.log('pricemode', calculatorStore.getState().priceMode);
+                }
+            })
+            
+            onBillCodeInput();
+            function onBillCodeInput () {
+                input.addEventListener('input', function () {
+                    const value = this.value;
+                    const newVal = value.replace(' ', '');
+                    this.value = newVal;
+                })
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formEl = this;
+                const requeredField = [{name: 'ans', validationType: 'text'}];
+                let postUrl;
+
+                if (calculatorStore.getState().priceMode) {
+                    postUrl = PRICEURL
+                } else if (calculatorStore.getState().billCodeMode) {
+                    postUrl = BILLCODEURL
+                };
+
+                formSubmit({formEl, requeredField, postUrl});
+            })
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            calculator();
+        })
+	</script>
+</body>
+
+</html>
